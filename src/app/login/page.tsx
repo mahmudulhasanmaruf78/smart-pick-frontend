@@ -21,7 +21,7 @@ export default function LoginPage() {
 
     try {
       // Send credentials to our NestJS backend
-      const res = await fetch("http://localhost:3000/auth/login", {
+      const res = await fetch("http://localhost:3001/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ identity: email, password }),
