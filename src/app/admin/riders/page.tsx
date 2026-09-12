@@ -66,7 +66,7 @@ export default function AdminRidersPage() {
     }
     const baseUrl = process.env.NEXT_PUBLIC_API_URL
       ? process.env.NEXT_PUBLIC_API_URL.replace(/\/api\/?$/, "")
-      : "http://localhost:3000";
+      : "http://localhost:3001";
     const cleanPath = path.replace(/\\/g, "/").replace(/^\.?\/?/, "");
     return `${baseUrl}/${cleanPath}`;
   };
