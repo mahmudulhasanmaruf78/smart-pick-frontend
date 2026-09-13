@@ -5,10 +5,12 @@ import axios from "axios";
 import Link from "next/link";
 import { api } from "@/lib/api";
 import { DeliveryZone, Order, User, VerificationStatus } from "@/types";
+import RiderSidebar from "@/components/layout/RiderSidebar";
 
 export default function RiderOrdersPage() {
   // Available orders list
   const [orders, setOrders] = useState<Order[]>([]);
+  const [riderName, setRiderName] = useState("");
 
   // Zone filter states
   const [zones, setZones] = useState<DeliveryZone[]>([]);
@@ -37,6 +39,10 @@ export default function RiderOrdersPage() {
 
     try {
       const response = await api.get<User>("/users/profile");
+
+      if (response.data?.name) {
+        setRiderName(response.data.name);
+      }
 
       const status =
         response.data.riderVerification?.status ?? VerificationStatus.Pending;
@@ -181,8 +187,15 @@ export default function RiderOrdersPage() {
   };
 
   return (
-    <main className="min-h-screen bg-gray-100 px-4 py-10">
-      <div className="mx-auto max-w-6xl">
+    <div className="min-h-screen bg-gray-50 flex flex-col md:flex-row">
+      <RiderSidebar
+        currentPath="/rider/orders"
+        verificationStatus={verificationStatus}
+        riderName={riderName}
+      />
+
+      <main className="flex-1 md:ml-64 min-w-0 px-4 py-8 sm:px-8 lg:px-10">
+        <div className="mx-auto max-w-5xl">
         {/* Page heading */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900">Available Orders</h1>
@@ -447,6 +460,7 @@ export default function RiderOrdersPage() {
           </section>
         )}
       </div>
-    </main>
+      </main>
+    </div>
   );
 }

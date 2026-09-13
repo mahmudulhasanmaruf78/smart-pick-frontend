@@ -1,3 +1,2 @@
-export default function Sidebar() {
-  return null;
-}
+export { default } from "./RiderSidebar";
+export * from "./RiderSidebar";

@@ -5,6 +5,7 @@ import axios from "axios";
 import { api } from "@/lib/api";
 import Link from "next/link";
 import { Order, OrderStatus } from "@/types";
+import RiderSidebar from "@/components/layout/RiderSidebar";
 
 export default function RiderDeliverPage() {
   // Current active delivery order
@@ -156,8 +157,11 @@ export default function RiderDeliverPage() {
     : -1;
 
   return (
-    <main className="min-h-screen bg-gray-100 px-4 py-10">
-      <div className="mx-auto max-w-3xl">
+    <div className="min-h-screen bg-gray-50 flex flex-col md:flex-row">
+      <RiderSidebar currentPath="/rider/deliver" />
+
+      <main className="flex-1 md:ml-64 min-w-0 px-4 py-8 sm:px-8 lg:px-10">
+        <div className="mx-auto max-w-4xl">
         <h1 className="text-3xl font-bold text-gray-900">Active Delivery</h1>
 
         <p className="mt-2 text-gray-600">
@@ -488,7 +492,8 @@ export default function RiderDeliverPage() {
               </div>
             </div>
           )}
-      </div>
-    </main>
+        </div>
+      </main>
+    </div>
   );
 }
