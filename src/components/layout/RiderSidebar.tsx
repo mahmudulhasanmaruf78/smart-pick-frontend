@@ -187,7 +187,9 @@ export default function RiderSidebar({
           Navigation
         </p>
         {navLinks.map((item) => {
-          const isActive = activePath === item.href;
+          const isActive =
+            activePath === item.href ||
+            (item.href === "/profile" && activePath === "/rider/profile");
           return (
             <Link
               key={item.href}
