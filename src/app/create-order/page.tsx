@@ -28,7 +28,16 @@ export default function CreateOrderPage() {
     }
   }, [router]);
 
-  // 3. Submit handler
+  // 3. Logout Handler
+  const handleLogout = () => {
+    if (confirm("Are you sure you want to log out?")) {
+      localStorage.removeItem("token");
+      localStorage.removeItem("role");
+      router.push("/login");
+    }
+  };
+
+  // 4. Submit handler
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
@@ -75,15 +84,30 @@ export default function CreateOrderPage() {
   return (
     <div className="min-h-screen bg-gray-50 text-black font-sans p-4">
       <div className="max-w-xl mx-auto bg-white p-8 border border-gray-200 rounded-lg shadow-sm mt-8">
-        {/* Navigation / Header */}
+        {/* Navbar with My Orders, Profile & Logout */}
         <div className="flex justify-between items-center pb-4 mb-6 border-b border-gray-200">
           <Link href="/" className="text-xl font-bold text-blue-600">
             SmartPick
           </Link>
-          <div className="space-x-4 text-sm">
-            <Link href="/orders" className="text-gray-600 hover:text-blue-600 font-medium">
+          <div className="flex items-center space-x-4 text-sm">
+            <Link
+              href="/orders"
+              className="text-gray-600 hover:text-blue-600 font-medium transition"
+            >
               My Orders
             </Link>
+            <Link
+              href="/profile"
+              className="text-gray-600 hover:text-blue-600 font-medium transition"
+            >
+              Profile
+            </Link>
+            <button
+              onClick={handleLogout}
+              className="text-red-600 hover:text-red-800 font-medium cursor-pointer transition"
+            >
+              Logout
+            </button>
           </div>
         </div>
 
@@ -214,7 +238,7 @@ export default function CreateOrderPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 text-white font-semibold py-3 rounded hover:bg-blue-700 transition mt-6"
+            className="w-full bg-blue-600 text-white font-semibold py-3 rounded hover:bg-blue-700 transition mt-6 cursor-pointer"
           >
             {loading ? "Calculating Fare & Booking..." : "Confirm & Book Delivery"}
           </button>

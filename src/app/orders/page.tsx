@@ -57,7 +57,16 @@ export default function OrdersPage() {
     fetchOrders();
   }, []);
 
-  // 2. Cancel Order Handler
+  // 2. Logout Handler
+  const handleLogout = () => {
+    if (confirm("Are you sure you want to log out?")) {
+      localStorage.removeItem("token");
+      localStorage.removeItem("role");
+      router.push("/login");
+    }
+  };
+
+  // 3. Cancel Order Handler
   const handleCancel = async (orderId: number) => {
     if (!confirm(`Are you sure you want to cancel Order #${orderId}?`)) return;
 
@@ -85,7 +94,7 @@ export default function OrdersPage() {
     }
   };
 
-  // 3. Helper function for colorful status badges
+  // 4. Helper function for colorful status badges
   const getStatusBadge = (status: string) => {
     switch (status.toLowerCase()) {
       case "pending":
@@ -106,18 +115,30 @@ export default function OrdersPage() {
   return (
     <div className="min-h-screen bg-gray-50 text-black font-sans p-4">
       <div className="max-w-4xl mx-auto py-8">
-        {/* Navbar / Header */}
+        {/* Navbar with Book Parcel, Profile & Logout */}
         <div className="flex justify-between items-center pb-4 mb-6 border-b border-gray-200">
           <Link href="/" className="text-2xl font-bold text-blue-600">
             SmartPick
           </Link>
-          <div className="space-x-4">
+          <div className="flex items-center space-x-4 text-sm">
             <Link
               href="/create-order"
-              className="bg-blue-600 text-white px-4 py-2 rounded font-medium hover:bg-blue-700 text-sm"
+              className="bg-blue-600 text-white px-3 py-1.5 rounded font-medium hover:bg-blue-700 transition"
             >
               + Book New Parcel
             </Link>
+            <Link
+              href="/profile"
+              className="text-gray-600 hover:text-blue-600 font-medium transition"
+            >
+              Profile
+            </Link>
+            <button
+              onClick={handleLogout}
+              className="text-red-600 hover:text-red-800 font-medium cursor-pointer transition"
+            >
+              Logout
+            </button>
           </div>
         </div>
 
@@ -142,7 +163,7 @@ export default function OrdersPage() {
             <p className="text-gray-600 mb-4">You haven't booked any deliveries yet.</p>
             <Link
               href="/create-order"
-              className="bg-blue-600 text-white px-6 py-2.5 rounded font-medium hover:bg-blue-700"
+              className="bg-blue-600 text-white px-6 py-2.5 rounded font-medium hover:bg-blue-700 transition"
             >
               Book Your First Parcel
             </Link>
@@ -205,7 +226,7 @@ export default function OrdersPage() {
                     order.status.toLowerCase() === "accepted") && (
                       <button
                         onClick={() => handleCancel(order.id)}
-                        className="text-xs text-red-600 border border-red-300 hover:bg-red-50 px-3 py-1.5 rounded transition"
+                        className="text-xs text-red-600 border border-red-300 hover:bg-red-50 px-3 py-1.5 rounded transition cursor-pointer"
                       >
                         Cancel Order
                       </button>
