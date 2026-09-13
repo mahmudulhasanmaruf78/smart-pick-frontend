@@ -6,6 +6,18 @@ import { usePathname } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
 import Badge from "@/components/ui/Badge";
 
+interface NavItem {
+  name: string;
+  href: string;
+  badge?: string;
+  icon: React.ReactNode;
+}
+
+interface NavSection {
+  title: string;
+  items: NavItem[];
+}
+
 interface AdminSidebarProps {
   currentPath?: string;
   adminName?: string;
@@ -34,7 +46,7 @@ export default function AdminSidebar({
     logout(true);
   };
 
-  const navSections = [
+  const navSections: NavSection[] = [
     {
       title: "Core",
       items: [

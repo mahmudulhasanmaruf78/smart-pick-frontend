@@ -4,7 +4,18 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
-import Badge from "@/components/ui/Badge";
+
+interface NavItem {
+  name: string;
+  href: string;
+  badge?: string;
+  icon: React.ReactNode;
+}
+
+interface NavSection {
+  title: string;
+  items: NavItem[];
+}
 
 interface CustomerSidebarProps {
   currentPath?: string;
@@ -28,86 +39,94 @@ export default function CustomerSidebar({
       const storedName = localStorage.getItem("userName");
       if (storedName) setUserName(storedName);
     }
-  }, [propUserName]);
+  }, [propUserName, user]);
 
   const handleLogout = () => {
     logout(true);
   };
 
-  const navLinks = [
+  const navSections: NavSection[] = [
     {
-      name: "My Consignments",
-      href: "/orders",
-      badge: "Active",
-      icon: (
-        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
-          />
-        </svg>
-      ),
+      title: "Consignments",
+      items: [
+        {
+          name: "My Consignments",
+          href: "/orders",
+          badge: "Active",
+          icon: (
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
+              />
+            </svg>
+          ),
+        },
+        {
+          name: "Book New Parcel",
+          href: "/create-order",
+          badge: "+ New",
+          icon: (
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+          ),
+        },
+      ],
     },
     {
-      name: "Book New Parcel",
-      href: "/create-order",
-      badge: "+ New",
-      icon: (
-        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-          />
-        </svg>
-      ),
-    },
-    {
-      name: "My Profile",
-      href: "/profile",
-      icon: (
-        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-          />
-        </svg>
-      ),
+      title: "Account",
+      items: [
+        {
+          name: "My Profile",
+          href: "/profile",
+          icon: (
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+              />
+            </svg>
+          ),
+        },
+      ],
     },
   ];
 
   const sidebarContent = (
-    <div className="flex flex-col h-full bg-white border-r border-gray-200 shadow-sm">
+    <div className="flex flex-col h-full bg-slate-900 text-slate-200 border-r border-slate-800 shadow-xl">
       {/* Brand Header */}
-      <div className="px-6 py-5 border-b border-gray-100 flex items-center justify-between">
-        <Link
-          href="/"
-          className="flex items-center gap-3 text-left group"
-        >
-          <div className="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center text-white font-bold text-lg shadow-md shadow-blue-500/20 group-hover:scale-105 group-active:scale-95 transition-transform">
-            S
+      <div className="px-6 py-5 border-b border-slate-800/80 flex items-center justify-between">
+        <Link href="/" className="flex items-center gap-3 group">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-blue-500/25 group-hover:scale-105 transition-transform">
+            🛍️
           </div>
           <div>
             <div className="flex items-center gap-1.5">
-              <span className="text-xl font-bold tracking-tight text-gray-900 group-hover:text-blue-600 transition-colors">
-                Smart<span className="text-blue-600">Pick</span>
+              <span className="text-lg font-bold tracking-tight text-white group-hover:text-blue-400 transition-colors">
+                Smart<span className="text-blue-400">Pick</span>
               </span>
             </div>
-            <span className="block text-[11px] font-semibold text-blue-600 uppercase tracking-wider">
+            <span className="block text-[10px] font-bold tracking-widest text-slate-400 uppercase">
               Customer Portal
             </span>
           </div>
         </Link>
+
         {/* Mobile close button */}
         <button
           type="button"
           onClick={() => setIsOpen(false)}
-          className="md:hidden p-1.5 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100"
+          className="md:hidden p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800"
           aria-label="Close menu"
         >
           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -117,80 +136,85 @@ export default function CustomerSidebar({
       </div>
 
       {/* Customer Profile Mini Card */}
-      <div className="px-5 py-4 border-b border-gray-100 bg-gradient-to-br from-slate-50 to-blue-50/30">
+      <div className="px-5 py-4 border-b border-slate-800/80 bg-slate-800/40">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-sm border border-blue-200">
+          <div className="w-10 h-10 rounded-full bg-blue-500/15 border border-blue-500/30 text-blue-400 flex items-center justify-center font-bold text-sm">
             {userName ? userName.charAt(0).toUpperCase() : "C"}
           </div>
           <div className="min-w-0 flex-1">
-            <h4 className="font-semibold text-sm text-gray-900 truncate">
+            <h4 className="font-semibold text-sm text-white truncate">
               {userName}
             </h4>
-            <div className="mt-0.5">
-              <Badge variant="customer" size="sm">
-                Customer
-              </Badge>
+            <div className="mt-1">
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-500/20 text-blue-300 border border-blue-500/30">
+                <span className="w-1.5 h-1.5 rounded-full bg-blue-400"></span>
+                Verified Customer
+              </span>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Navigation */}
-      <div className="flex-1 px-4 py-6 space-y-1.5 overflow-y-auto">
-        <p className="px-3 pb-2 text-[11px] font-semibold uppercase tracking-wider text-gray-400">
-          Navigation
-        </p>
-        {navLinks.map((item) => {
-          const isActive = activePath === item.href;
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              onClick={() => setIsOpen(false)}
-              className={`group flex items-center justify-between px-3.5 py-2.5 rounded-xl font-medium text-sm transition-all duration-150 ${
-                isActive
-                  ? "bg-blue-600 text-white shadow-sm shadow-blue-600/25"
-                  : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
-              }`}
-            >
-              <div className="flex items-center gap-3">
-                <span className={isActive ? "text-white" : "text-gray-400 group-hover:text-blue-600"}>
-                  {item.icon}
-                </span>
-                <span>{item.name}</span>
-              </div>
-              {item.badge && (
-                <span
-                  className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+      {/* Navigation Sections */}
+      <div className="flex-1 px-3 py-5 space-y-6 overflow-y-auto">
+        {navSections.map((section) => (
+          <div key={section.title} className="space-y-1">
+            <p className="px-3 pb-1 text-[10px] font-bold uppercase tracking-wider text-slate-400">
+              {section.title}
+            </p>
+            {section.items.map((item) => {
+              const isActive = activePath === item.href;
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setIsOpen(false)}
+                  className={`group flex items-center justify-between px-3 py-2.5 rounded-xl font-medium text-sm transition-all duration-150 ${
                     isActive
-                      ? "bg-white/20 text-white"
-                      : "bg-blue-100 text-blue-700"
+                      ? "bg-blue-600 text-white shadow-md shadow-blue-600/30 font-semibold"
+                      : "text-slate-400 hover:bg-slate-800/70 hover:text-white"
                   }`}
                 >
-                  {item.badge}
-                </span>
-              )}
-            </Link>
-          );
-        })}
+                  <div className="flex items-center gap-3">
+                    <span className={isActive ? "text-white" : "text-slate-400 group-hover:text-blue-400 transition-colors"}>
+                      {item.icon}
+                    </span>
+                    <span>{item.name}</span>
+                  </div>
+                  {item.badge && (
+                    <span
+                      className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                        isActive
+                          ? "bg-white/20 text-white"
+                          : "bg-slate-800 text-blue-400 border border-slate-700"
+                      }`}
+                    >
+                      {item.badge}
+                    </span>
+                  )}
+                </Link>
+              );
+            })}
+          </div>
+        ))}
       </div>
 
-      {/* Helpful Info Widget */}
-      <div className="p-4 mx-4 mb-4 rounded-xl bg-blue-50/70 border border-blue-100">
-        <div className="flex items-center gap-2 text-blue-700 text-xs font-semibold">
+      {/* Quick Tip Widget */}
+      <div className="p-3.5 mx-3 mb-3 rounded-xl bg-slate-800/60 border border-slate-700/60 text-xs text-slate-400">
+        <div className="flex items-center gap-2 text-blue-400 font-semibold mb-1">
           <span>💡 Quick Tip</span>
         </div>
-        <p className="mt-1 text-xs text-blue-900/80 leading-relaxed">
-          Book parcels easily and track commuter handovers live every step of the journey!
+        <p className="text-[11px] text-slate-300/90 leading-relaxed">
+          Book consignments easily and track handovers live every step of the way!
         </p>
       </div>
 
       {/* Footer / Logout */}
-      <div className="p-4 border-t border-gray-100">
+      <div className="p-3 border-t border-slate-800">
         <button
           type="button"
           onClick={handleLogout}
-          className="flex w-full items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-rose-600 hover:bg-rose-50 transition"
+          className="flex w-full items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-rose-400 hover:bg-rose-500/10 hover:text-rose-300 transition"
         >
           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path
@@ -209,12 +233,12 @@ export default function CustomerSidebar({
   return (
     <>
       {/* Mobile Top Header with Hamburger */}
-      <div className="md:hidden sticky top-0 z-30 flex items-center justify-between bg-white border-b border-gray-200 px-4 py-3 shadow-xs">
-        <div className="flex items-center gap-2">
+      <div className="md:hidden sticky top-0 z-30 flex items-center justify-between bg-slate-900 border-b border-slate-800 px-4 py-3 shadow-md">
+        <div className="flex items-center gap-2.5">
           <button
             type="button"
             onClick={() => setIsOpen(true)}
-            className="p-2 -ml-2 rounded-lg text-gray-600 hover:bg-gray-100"
+            className="p-2 -ml-2 rounded-lg text-slate-300 hover:bg-slate-800"
             aria-label="Open menu"
           >
             <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -223,24 +247,25 @@ export default function CustomerSidebar({
           </button>
           <Link
             href="/"
-            className="font-bold text-gray-900 text-left hover:text-blue-600 transition flex items-center gap-1.5"
+            className="font-bold text-white text-left hover:text-blue-400 transition flex items-center gap-2"
           >
+            <span>🛍️</span>
             <span>
-              Smart<span className="text-blue-600">Pick</span>
+              Smart<span className="text-blue-400">Pick</span>
             </span>
           </Link>
         </div>
         <div>
-          <Badge variant="customer" size="sm">
+          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-500/20 text-blue-300 border border-blue-500/30">
             Customer
-          </Badge>
+          </span>
         </div>
       </div>
 
       {/* Mobile Overlay */}
       {isOpen && (
         <div
-          className="fixed inset-0 z-40 bg-black/40 backdrop-blur-xs md:hidden"
+          className="fixed inset-0 z-40 bg-black/60 backdrop-blur-xs md:hidden"
           onClick={() => setIsOpen(false)}
         />
       )}
