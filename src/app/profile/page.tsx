@@ -51,6 +51,17 @@ export default function ProfilePage() {
           },
         });
 
+        if (res.status === 401) {
+          if (typeof window !== "undefined") {
+            localStorage.removeItem("token");
+            localStorage.removeItem("role");
+            localStorage.removeItem("user");
+            localStorage.removeItem("userName");
+          }
+          router.push("/login?expired=true");
+          return;
+        }
+
         const data = await res.json();
         if (!res.ok) {
           throw new Error(data.message || "Failed to load profile");

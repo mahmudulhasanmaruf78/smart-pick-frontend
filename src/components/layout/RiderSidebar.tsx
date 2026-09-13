@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { VerificationStatus } from "@/types";
+import { useAuth } from "@/hooks/useAuth";
 
 interface RiderSidebarProps {
   currentPath?: string;
@@ -21,6 +22,7 @@ export default function RiderSidebar({
   const pathname = usePathname();
   const router = useRouter();
   const activePath = currentPath || pathname;
+  const { logout } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [riderName, setRiderName] = useState(propRiderName || "Rider");
 
@@ -41,12 +43,7 @@ export default function RiderSidebar({
   }, [propRiderName]);
 
   const handleLogout = () => {
-    if (confirm("Are you sure you want to log out?")) {
-      localStorage.removeItem("token");
-      localStorage.removeItem("role");
-      localStorage.removeItem("userName");
-      router.push("/login");
-    }
+    logout(true);
   };
 
   const navLinks = [

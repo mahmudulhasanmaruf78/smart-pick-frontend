@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { api } from "@/lib/api";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Order, OrderStatus } from "@/types";
 import RiderSidebar from "@/components/layout/RiderSidebar";
 
@@ -125,9 +126,17 @@ export default function RiderDeliverPage() {
     }
   };
 
+  const router = useRouter();
+
   useEffect(() => {
+    const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+    const role = typeof window !== "undefined" ? localStorage.getItem("role") : null;
+    if (!token || role?.toLowerCase() !== "rider") {
+      router.push("/login");
+      return;
+    }
     loadActiveOrder();
-  }, []);
+  }, [router]);
 
   const deliverySteps = [
     {

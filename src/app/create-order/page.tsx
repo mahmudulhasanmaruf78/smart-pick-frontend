@@ -1,11 +1,21 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
+import { useRouter } from "next/navigation";
 import Navbar from "@/components/layout/Navbar";
 import Card from "@/components/ui/Card";
 import OrderForm from "@/components/orders/OrderForm";
 
 export default function CreateOrderPage() {
+  const router = useRouter();
+
+  useEffect(() => {
+    const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+    if (!token) {
+      router.push("/login");
+    }
+  }, [router]);
+
   return (
     <div className="min-h-screen bg-gray-50 text-black font-sans">
       <Navbar />

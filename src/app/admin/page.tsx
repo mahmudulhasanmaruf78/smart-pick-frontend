@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { api } from "@/lib/api";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { DashboardStats } from "@/types/admin";
 
 export default function AdminDashboardPage() {
@@ -56,10 +57,18 @@ export default function AdminDashboardPage() {
     }
   };
 
+  const router = useRouter();
+
   // Page load time data fetch
   useEffect(() => {
+    const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+    const role = typeof window !== "undefined" ? localStorage.getItem("role") : null;
+    if (!token || role?.toLowerCase() !== "admin") {
+      router.push("/login");
+      return;
+    }
     fetchDashboardStats();
-  }, []);
+  }, [router]);
 
   return (
     <main className="min-h-screen bg-gray-50 px-4 py-10 sm:px-6 lg:px-8">

@@ -1,6 +1,6 @@
-﻿"use client";
+"use client";
 
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 
 export interface User {
@@ -17,7 +17,7 @@ interface AuthContextType {
   role: string | null;
   loading: boolean;
   login: (token: string, userData?: any) => void;
-  logout: () => void;
+  logout: (confirmPrompt?: boolean | any) => void;
   setUser: (user: User | null) => void;
 }
 
@@ -65,23 +65,48 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     if (userData) {
       setUser(userData);
-      setRole(userData.role || "customer");
-      localStorage.setItem("role", userData.role || "customer");
+      const userRole = userData.role || "customer";
+      setRole(userRole);
+      localStorage.setItem("role", userRole);
       localStorage.setItem("user", JSON.stringify(userData));
+      if (userData.name) {
+        localStorage.setItem("userName", userData.name);
+      }
     }
   };
 
-  const logout = () => {
-    if (confirm("Are you sure you want to log out?")) {
-      setToken(null);
-      setUser(null);
-      setRole(null);
-      localStorage.removeItem("token");
-      localStorage.removeItem("role");
-      localStorage.removeItem("user");
-      router.push("/login");
+  const logout = useCallback((confirmPrompt?: boolean | any) => {
+    const shouldConfirm = typeof confirmPrompt === "boolean" ? confirmPrompt : true;
+    if (shouldConfirm && typeof window !== "undefined") {
+      const confirmed = window.confirm("Are you sure you want to log out?");
+      if (!confirmed) return;
     }
-  };
+
+    // 1. Invalidate React Context state
+    setToken(null);
+    setUser(null);
+    setRole(null);
+
+    // 2. Completely purge all storage and session artifacts
+    if (typeof window !== "undefined") {
+      try {
+        localStorage.removeItem("token");
+        localStorage.removeItem("role");
+        localStorage.removeItem("user");
+        localStorage.removeItem("userName");
+        sessionStorage.clear();
+
+        // Expire any auth cookie
+        document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        document.cookie = "role=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      } catch (e) {
+        console.error("Error during session logout cleanup", e);
+      }
+    }
+
+    // 3. Redirect to login
+    router.push("/login");
+  }, [router]);
 
   return (
     <AuthContext.Provider

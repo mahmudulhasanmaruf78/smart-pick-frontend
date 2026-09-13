@@ -4,6 +4,7 @@ import axios from "axios";
 import Link from "next/link";
 import { api } from "@/lib/api";
 import { Role, User } from "@/types";
+import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 
 export default function AdminUsersPage() {
@@ -106,10 +107,18 @@ export default function AdminUsersPage() {
     }
   };
 
+  const router = useRouter();
+
   // Page Load Time Fetching
   useEffect(() => {
+    const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+    const role = typeof window !== "undefined" ? localStorage.getItem("role") : null;
+    if (!token || role?.toLowerCase() !== "admin") {
+      router.push("/login");
+      return;
+    }
     fetchUsersAndProfile();
-  }, []);
+  }, [router]);
 
   // Real-time Search & Role Filtered List
   const filteredUsers = useMemo(() => {

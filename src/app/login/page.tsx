@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Card from "@/components/ui/Card";
@@ -16,6 +16,15 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("expired") === "true") {
+        setError("Your session has expired. Please sign in again.");
+      }
+    }
+  }, []);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -38,6 +47,12 @@ export default function LoginPage() {
 
       // Update global AuthContext and localStorage
       login(data.accessToken, data.user);
+
+      // Set auth cookies for session resilience
+      if (typeof window !== "undefined") {
+        document.cookie = `token=${data.accessToken}; path=/; max-age=86400; SameSite=Lax`;
+        document.cookie = `role=${data.user?.role || "customer"}; path=/; max-age=86400; SameSite=Lax`;
+      }
 
       // Route based on role
       const role = data.user?.role?.toLowerCase();

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { api } from "@/lib/api";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { DeliveryZone } from "@/types/zone";
 
 export default function AdminZonesPage() {
@@ -54,10 +55,18 @@ export default function AdminZonesPage() {
     }
   };
 
+  const router = useRouter();
+
   // Page load time data fetch
   useEffect(() => {
+    const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+    const role = typeof window !== "undefined" ? localStorage.getItem("role") : null;
+    if (!token || role?.toLowerCase() !== "admin") {
+      router.push("/login");
+      return;
+    }
     fetchZones();
-  }, []);
+  }, [router]);
 
   // Add Zone button click handler function to clear the form and open the modal
   const handleOpenCreateModal = () => {

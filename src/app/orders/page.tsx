@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
@@ -30,6 +30,17 @@ export default function OrdersPage() {
           Authorization: `Bearer ${activeToken}`,
         },
       });
+
+      if (res.status === 401) {
+        if (typeof window !== "undefined") {
+          localStorage.removeItem("token");
+          localStorage.removeItem("role");
+          localStorage.removeItem("user");
+          localStorage.removeItem("userName");
+        }
+        router.push("/login?expired=true");
+        return;
+      }
 
       const data = await res.json();
       if (!res.ok) {

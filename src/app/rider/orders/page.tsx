@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { api } from "@/lib/api";
 import { DeliveryZone, Order, User, VerificationStatus } from "@/types";
 import RiderSidebar from "@/components/layout/RiderSidebar";
@@ -91,9 +92,17 @@ export default function RiderOrdersPage() {
     }
   };
 
+  const router = useRouter();
+
   useEffect(() => {
+    const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+    const role = typeof window !== "undefined" ? localStorage.getItem("role") : null;
+    if (!token || role?.toLowerCase() !== "rider") {
+      router.push("/login");
+      return;
+    }
     loadRiderProfile();
-  }, []);
+  }, [router]);
 
   // Filter orders based on zone selection
   const filteredOrders = useMemo(() => {

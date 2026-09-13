@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import { api } from "@/lib/api";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { User, VerificationStatus } from "@/types";
 
 export default function AdminRidersPage() {
@@ -50,9 +51,17 @@ export default function AdminRidersPage() {
     }
   };
 
+  const router = useRouter();
+
   useEffect(() => {
+    const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+    const role = typeof window !== "undefined" ? localStorage.getItem("role") : null;
+    if (!token || role?.toLowerCase() !== "admin") {
+      router.push("/login");
+      return;
+    }
     fetchRiders();
-  }, []);
+  }, [router]);
 
   // NID Image full path generate helper function
   const getNidImageUrl = (path?: string) => {
