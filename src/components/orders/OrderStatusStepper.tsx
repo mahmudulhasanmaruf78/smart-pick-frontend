@@ -1,3 +1,0 @@
-export default function OrderStatusStepper() {
-  return null;
-}
