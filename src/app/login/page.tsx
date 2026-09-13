@@ -1,51 +1,51 @@
-"use client";
+﻿"use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import Card from "@/components/ui/Card";
+import Input from "@/components/ui/Input";
+import Button from "@/components/ui/Button";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function LoginPage() {
   const router = useRouter();
+  const { login } = useAuth();
 
-  // 1. State to store what user types
-  const [email, setEmail] = useState("");
+  const [identity, setIdentity] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // 2. Submit handler
   const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault(); // Stop page from refreshing
+    e.preventDefault();
     setError("");
     setLoading(true);
 
     try {
-      // Send credentials to our NestJS backend
       const res = await fetch("http://localhost:3001/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ identity: email, password }),
+        body: JSON.stringify({ identity, password }),
       });
 
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(data.message || "Invalid email or password");
+        throw new Error(data.message || "Invalid email/phone or password");
       }
 
-      // 3. Save the JWT token in the browser
-      localStorage.setItem("token", data.accessToken);
-      localStorage.setItem("role", data.user?.role || "customer");
+      // Update global AuthContext and localStorage
+      login(data.accessToken, data.user);
 
-      alert("Login successful! Welcome back.");
-
-      // 4. Redirect based on role
-      if (data.user?.role === "rider") {
+      // Route based on role
+      const role = data.user?.role?.toLowerCase();
+      if (role === "rider") {
         router.push("/rider/orders");
-      } else if (data.user?.role === "admin") {
+      } else if (role === "admin") {
         router.push("/admin");
       } else {
-        router.push("/orders"); // Customer goes to orders
+        router.push("/orders");
       }
     } catch (err: any) {
       setError(err.message || "Something went wrong. Please check your backend.");
@@ -55,69 +55,58 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
-      <div className="max-w-md w-full bg-white p-8 border rounded-lg shadow-sm">
-        {/* Header */}
+    <div className="min-h-screen bg-gray-50 flex flex-col justify-center items-center p-4">
+      <div className="max-w-md w-full">
         <div className="text-center mb-6">
-          <Link href="/" className="text-2xl font-bold text-blue-600">
-            📦 SmartPick
+          <Link href="/" className="text-3xl font-bold text-blue-600 tracking-tight">
+            SmartPick
           </Link>
-          <h2 className="text-xl font-bold text-gray-800 mt-2">Sign in to your account</h2>
+          <p className="text-gray-500 text-sm mt-1">Sign in to your account</p>
         </div>
 
-        {/* Error message box (only shows if error exists) */}
-        {error && (
-          <div className="mb-4 p-3 bg-red-100 text-red-700 text-sm rounded">
-            {error}
-          </div>
-        )}
+        <Card>
+          {error && (
+            <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-700 text-sm rounded-lg">
+              {error}
+            </div>
+          )}
 
-        {/* Login Form */}
-        <form onSubmit={handleLogin} className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Email or Phone
-            </label>
-            <input
+          <form onSubmit={handleLogin} className="space-y-4">
+            <Input
+              label="Email or Phone Number"
               type="text"
               required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full border border-gray-300 bg-white text-black p-2 rounded focus:outline-blue-500"
+              placeholder="e.g. demo@gmail.com or 01712345678"
+              value={identity}
+              onChange={(e) => setIdentity(e.target.value)}
             />
 
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Password
-            </label>
-            <input
+            <Input
+              label="Password"
               type="password"
               required
               placeholder="••••••••"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full border p-2 rounded focus:outline-blue-500"
             />
-          </div>
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-blue-600 text-white font-semibold py-2 rounded hover:bg-blue-700 transition"
-          >
-            {loading ? "Signing in..." : "Sign In"}
-          </button>
-        </form>
+            <Button
+              type="submit"
+              loading={loading}
+              variant="primary"
+              className="w-full py-2.5 mt-2"
+            >
+              Sign In
+            </Button>
+          </form>
 
-        {/* Footer Link */}
-        <p className="text-center text-sm text-gray-600 mt-6">
-          Don't have an account?{" "}
-          <Link href="/register" className="text-blue-600 hover:underline">
-            Register here
-          </Link>
-        </p>
+          <p className="text-center text-sm text-gray-600 mt-6 pt-4 border-t border-gray-100">
+            Don't have an account?{" "}
+            <Link href="/register" className="text-blue-600 font-medium hover:underline">
+              Register here
+            </Link>
+          </p>
+        </Card>
       </div>
     </div>
   );
