@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Navbar from "@/components/layout/Navbar";
 import RiderLayout from "@/components/layout/RiderLayout";
+import CustomerLayout from "@/components/layout/CustomerLayout";
 import Card from "@/components/ui/Card";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
@@ -288,26 +289,22 @@ export default function ProfilePage() {
     );
   }
 
-  // Customer / Default Layout with Navbar
+  // Customer / Default Layout with CustomerSidebar
   return (
-    <div className="min-h-screen bg-gray-50 text-black font-sans flex flex-col">
-      <Navbar />
-
-      <main className="flex-1 max-w-xl w-full mx-auto p-4 py-8">
-        <Card>
-          <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-100">
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900">My Profile</h1>
-              <p className="text-sm text-gray-500">
-                Manage your personal information and contact details
-              </p>
-            </div>
-            <Badge variant={role || "customer"}>{role || "Customer"}</Badge>
+    <CustomerLayout currentPath="/profile" maxWidth="max-w-xl">
+      <Card>
+        <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-100">
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900">My Profile</h1>
+            <p className="text-sm text-gray-500">
+              Manage your personal information and contact details
+            </p>
           </div>
+          <Badge variant={role || "customer"}>{role || "Customer"}</Badge>
+        </div>
 
-          {profileForm}
-        </Card>
-      </main>
-    </div>
+        {profileForm}
+      </Card>
+    </CustomerLayout>
   );
 }

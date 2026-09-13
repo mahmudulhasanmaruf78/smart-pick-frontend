@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Navbar from "@/components/layout/Navbar";
 import RiderLayout from "@/components/layout/RiderLayout";
+import CustomerLayout from "@/components/layout/CustomerLayout";
 import OrderCard, { Order } from "@/components/orders/OrderCard";
 import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
@@ -271,13 +272,10 @@ export default function OrdersPage() {
     );
   }
 
-  // Otherwise, render customer layout with Navbar
+  // Customer layout with persistent CustomerSidebar
   return (
-    <div className="min-h-screen bg-gray-50 text-black font-sans flex flex-col">
-      <Navbar />
-      <main className="flex-1 max-w-4xl w-full mx-auto p-4 py-8">
-        {ordersContent}
-      </main>
-    </div>
+    <CustomerLayout currentPath="/orders">
+      {ordersContent}
+    </CustomerLayout>
   );
 }
