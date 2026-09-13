@@ -34,7 +34,8 @@ export default function OrdersPage() {
     }
 
     try {
-      const res = await fetch("http://localhost:3001/orders/customer/history", {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+      const res = await fetch(`${apiUrl}/orders/customer/history`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -72,8 +73,9 @@ export default function OrdersPage() {
 
     const token = localStorage.getItem("token");
     try {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
       const res = await fetch(
-        `http://localhost:3001/orders/customer/cancel/${orderId}`,
+        `${apiUrl}/orders/customer/cancel/${orderId}`,
         {
           method: "DELETE",
           headers: {

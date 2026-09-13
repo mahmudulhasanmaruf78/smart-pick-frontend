@@ -29,7 +29,8 @@ export default function ProfilePage() {
 
     const fetchProfile = async () => {
       try {
-        const res = await fetch("http://localhost:3001/users/profile", {
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+        const res = await fetch(`${apiUrl}/users/profile`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -79,7 +80,8 @@ export default function ProfilePage() {
     }
 
     try {
-      const res = await fetch("http://localhost:3001/users/profile", {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+      const res = await fetch(`${apiUrl}/users/profile`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

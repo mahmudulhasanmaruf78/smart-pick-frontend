@@ -46,7 +46,8 @@ export default function CreateOrderPage() {
     const token = localStorage.getItem("token");
 
     try {
-      const res = await fetch("http://localhost:3001/orders/create", {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+      const res = await fetch(`${apiUrl}/orders/create`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
