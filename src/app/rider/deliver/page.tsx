@@ -6,7 +6,10 @@ import { api } from "@/lib/api";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Order, OrderStatus } from "@/types";
-import RiderSidebar from "@/components/layout/RiderSidebar";
+import RiderLayout from "@/components/layout/RiderLayout";
+import Button from "@/components/ui/Button";
+import Badge from "@/components/ui/Badge";
+import Alert from "@/components/ui/Alert";
 
 export default function RiderDeliverPage() {
   // Current active delivery order
@@ -166,42 +169,20 @@ export default function RiderDeliverPage() {
     : -1;
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col md:flex-row">
-      <RiderSidebar currentPath="/rider/deliver" />
+    <RiderLayout
+      currentPath="/rider/deliver"
+      title="Active Delivery"
+      subtitle="Track and update your current delivery order."
+    >
+      {isLoading && (
+        <div className="mt-6 flex items-center gap-3 rounded-lg border border-blue-200 bg-blue-50 px-4 py-3 text-blue-700">
+          <span className="h-5 w-5 animate-spin rounded-full border-2 border-blue-600 border-t-transparent" />
+          <p className="text-sm font-medium">Loading active delivery...</p>
+        </div>
+      )}
 
-      <main className="flex-1 md:ml-64 min-w-0 px-4 py-8 sm:px-8 lg:px-10">
-        <div className="mx-auto max-w-4xl">
-        <h1 className="text-3xl font-bold text-gray-900">Active Delivery</h1>
-
-        <p className="mt-2 text-gray-600">
-          Track and update your current delivery order.
-        </p>
-
-        {isLoading && (
-          <div className="mt-6 flex items-center gap-3 rounded-lg border border-blue-200 bg-blue-50 px-4 py-3 text-blue-700">
-            <span className="h-5 w-5 animate-spin rounded-full border-2 border-blue-600 border-t-transparent" />
-
-            <p className="text-sm font-medium">Loading active delivery...</p>
-          </div>
-        )}
-
-        {errorMessage && (
-          <div
-            role="alert"
-            className="mt-6 rounded-lg border border-red-300 bg-red-50 px-5 py-4 text-sm text-red-700"
-          >
-            {errorMessage}
-          </div>
-        )}
-
-        {successMessage && (
-          <div
-            role="status"
-            className="mt-6 rounded-lg border border-green-300 bg-green-50 px-5 py-4 text-sm text-green-700"
-          >
-            {successMessage}
-          </div>
-        )}
+      {errorMessage && <Alert type="error" message={errorMessage} className="mt-6" />}
+      {successMessage && <Alert type="success" message={successMessage} className="mt-6" />}
 
         {/* delivery completed */}
         {!isLoading && activeOrder?.status === OrderStatus.Delivered && (
@@ -263,32 +244,27 @@ export default function RiderDeliverPage() {
                     </h2>
                   </div>
 
-                  <span className="rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold capitalize text-blue-700">
+                  <Badge variant={activeOrder.status} dot>
                     {activeOrder.status.replace("_", " ")}
-                  </span>
+                  </Badge>
                 </div>
               </div>
 
               {/* update status */}
-              <button
+              <Button
                 type="button"
                 onClick={handleStatusUpdate}
-                disabled={isUpdating}
-                className="mt-6 flex w-full items-center justify-center rounded-lg bg-blue-600 px-4 py-3 font-semibold text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
+                loading={isUpdating}
+                variant="primary"
+                className="w-full mt-6 py-3.5 text-base font-semibold"
               >
-                {isUpdating && (
-                  <span className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
-                )}
-
                 {activeOrder.status === OrderStatus.Accepted &&
                   "Mark as Picked Up"}
-
                 {activeOrder.status === OrderStatus.PickedUp &&
                   "Mark as In Transit"}
-
                 {activeOrder.status === OrderStatus.InTransit &&
                   "Mark as Delivered"}
-              </button>
+              </Button>
 
               {/* Delivery status stepper */}
               <div className="rounded-2xl bg-white p-6 shadow">
@@ -501,8 +477,6 @@ export default function RiderDeliverPage() {
               </div>
             </div>
           )}
-        </div>
-      </main>
-    </div>
+    </RiderLayout>
   );
 }

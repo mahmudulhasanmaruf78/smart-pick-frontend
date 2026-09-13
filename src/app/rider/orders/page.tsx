@@ -6,7 +6,10 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { api } from "@/lib/api";
 import { DeliveryZone, Order, User, VerificationStatus } from "@/types";
-import RiderSidebar from "@/components/layout/RiderSidebar";
+import RiderLayout from "@/components/layout/RiderLayout";
+import Button from "@/components/ui/Button";
+import Badge from "@/components/ui/Badge";
+import Alert from "@/components/ui/Alert";
 
 export default function RiderOrdersPage() {
   // Available orders list
@@ -196,93 +199,57 @@ export default function RiderOrdersPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col md:flex-row">
-      <RiderSidebar
-        currentPath="/rider/orders"
-        verificationStatus={verificationStatus}
-        riderName={riderName}
-      />
-
-      <main className="flex-1 md:ml-64 min-w-0 px-4 py-8 sm:px-8 lg:px-10">
-        <div className="mx-auto max-w-5xl">
-        {/* Page heading */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Available Orders</h1>
-
-          <p className="mt-2 text-gray-600">
-            Find and accept available delivery orders.
+    <RiderLayout
+      currentPath="/rider/orders"
+      verificationStatus={verificationStatus}
+      riderName={riderName}
+      title="Available Orders"
+      subtitle="Find and accept available delivery orders along your route."
+      maxWidth="max-w-5xl"
+    >
+      {/* Loading profile */}
+      {isLoading && (
+        <div className="mb-6 flex items-center gap-3 rounded-lg border border-blue-200 bg-blue-50 px-4 py-3 text-blue-700">
+          <span className="h-5 w-5 animate-spin rounded-full border-2 border-blue-600 border-t-transparent" />
+          <p className="text-sm font-medium">
+            Checking rider verification status...
           </p>
         </div>
+      )}
 
-        {/* Loading profile */}
-        {isLoading && (
-          <div className="mb-6 flex items-center gap-3 rounded-lg border border-blue-200 bg-blue-50 px-4 py-3 text-blue-700">
-            <span className="h-5 w-5 animate-spin rounded-full border-2 border-blue-600 border-t-transparent" />
+      {/* Pending verification banner */}
+      {!isLoading && verificationStatus === VerificationStatus.Pending && (
+        <Alert
+          type="warning"
+          title="NID verification pending"
+          message="Your NID is pending approval. You cannot view or accept delivery jobs yet."
+          className="mb-6"
+        />
+      )}
 
-            <p className="text-sm font-medium">
-              Checking rider verification status...
-            </p>
-          </div>
-        )}
+      {/* Rejected verification banner */}
+      {!isLoading && verificationStatus === VerificationStatus.Rejected && (
+        <Alert
+          type="error"
+          title="NID verification rejected"
+          message="Your NID verification was rejected. Please contact support or submit valid information again."
+          className="mb-6"
+        />
+      )}
 
-        {/* Pending verification banner */}
-        {!isLoading && verificationStatus === VerificationStatus.Pending && (
-          <div
-            role="alert"
-            className="mb-6 rounded-lg border border-yellow-300 bg-yellow-50 px-5 py-4 text-yellow-800"
+      {/* API error & success */}
+      {errorMessage && <Alert type="error" message={errorMessage} className="mb-6" />}
+      {successMessage && (
+        <Alert type="success" className="mb-6">
+          <p className="font-medium">{successMessage}</p>
+          <Link
+            href="/rider/deliver"
+            className="mt-2.5 inline-block rounded-lg bg-emerald-600 px-3.5 py-1.5 text-xs font-semibold text-white transition hover:bg-emerald-700"
           >
-            <h2 className="font-semibold">NID verification pending</h2>
-
-            <p className="mt-1 text-sm">
-              Your NID is pending approval. You cannot view or accept delivery
-              jobs yet.
-            </p>
-          </div>
-        )}
-
-        {/* Rejected verification banner */}
-        {!isLoading && verificationStatus === VerificationStatus.Rejected && (
-          <div
-            role="alert"
-            className="mb-6 rounded-lg border border-red-300 bg-red-50 px-5 py-4 text-red-700"
-          >
-            <h2 className="font-semibold">NID verification rejected</h2>
-
-            <p className="mt-1 text-sm">
-              Your NID verification was rejected. Please contact support or
-              submit valid information again.
-            </p>
-          </div>
-        )}
-
-        {/* API error */}
-        {errorMessage && (
-          <div
-            role="alert"
-            className="mb-6 rounded-lg border border-red-300 bg-red-50 px-5 py-4 text-sm text-red-700"
-          >
-            {errorMessage}
-          </div>
-        )}
-
-        {/* Success message */}
-        {successMessage && (
-          <div
-            role="status"
-            className="mb-6 rounded-lg border border-green-300 bg-green-50 px-5 py-4"
-          >
-            <p className="text-sm font-medium text-green-700">
-              {successMessage}
-            </p>
-
-            <Link
-              href="/rider/deliver"
-              className="mt-3 inline-block rounded-lg bg-green-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-green-700"
-            >
-              View Active Delivery
-            </Link>
-          </div>
-        )}
+            View Active Delivery &rarr;
+          </Link>
+        </Alert>
+      )}
 
         {/* Approved rider content */}
         {isVerified && (
@@ -419,13 +386,13 @@ export default function RiderOrdersPage() {
 
                     {/* Parcel and delivery badges */}
                     <div className="mt-5 flex flex-wrap gap-2">
-                      <span className="rounded-full bg-purple-100 px-3 py-1 text-xs font-semibold text-purple-700">
+                      <Badge variant={order.parcelType} size="sm">
                         📦 {formatLabel(order.parcelType)}
-                      </span>
+                      </Badge>
 
-                      <span className="rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-700">
+                      <Badge variant={order.deliveryType} size="sm">
                         🚚 {formatLabel(order.deliveryType)}
-                      </span>
+                      </Badge>
                     </div>
 
                     {/* Weight and fare */}
@@ -448,28 +415,21 @@ export default function RiderOrdersPage() {
                     </div>
 
                     {/* Accept button */}
-                    <button
+                    <Button
                       type="button"
                       onClick={() => handleAcceptOrder(order.id)}
-                      disabled={acceptingId === order.id}
-                      className="mt-5 flex w-full items-center justify-center gap-2 rounded-lg bg-green-600 px-4 py-3 font-semibold text-white transition hover:bg-green-700 disabled:cursor-not-allowed"
+                      loading={acceptingId === order.id}
+                      variant="primary"
+                      className="mt-5 w-full py-3 font-semibold bg-emerald-600 hover:bg-emerald-700"
                     >
-                      {acceptingId === order.id && (
-                        <span className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent" />
-                      )}
-
-                      {acceptingId === order.id
-                        ? "Accepting..."
-                        : "Accept Order"}
-                    </button>
+                      Accept Order
+                    </Button>
                   </article>
                 ))}
               </div>
             )}
           </section>
         )}
-      </div>
-      </main>
-    </div>
+    </RiderLayout>
   );
 }

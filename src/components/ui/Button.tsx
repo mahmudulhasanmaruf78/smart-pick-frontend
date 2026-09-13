@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React from "react";
 
@@ -6,6 +6,7 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   variant?: "primary" | "secondary" | "danger" | "outline" | "ghost";
   size?: "sm" | "md" | "lg";
   loading?: boolean;
+  isLoading?: boolean;
 }
 
 export default function Button({
@@ -13,10 +14,12 @@ export default function Button({
   variant = "primary",
   size = "md",
   loading = false,
+  isLoading = false,
   disabled,
   className = "",
   ...props
 }: ButtonProps) {
+  const isBusy = isLoading || loading;
   const baseStyles = "font-semibold rounded transition cursor-pointer inline-flex items-center justify-center";
 
   const sizeStyles = {
@@ -35,11 +38,11 @@ export default function Button({
 
   return (
     <button
-      disabled={disabled || loading}
+      disabled={disabled || isBusy}
       className={`${baseStyles} ${sizeStyles[size]} ${variantStyles[variant]} ${className}`}
       {...props}
     >
-      {loading ? (
+      {isBusy ? (
         <span className="inline-flex items-center gap-2">
           <svg className="animate-spin h-4 w-4 text-current" viewBox="0 0 24 24" fill="none">
             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />

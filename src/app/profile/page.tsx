@@ -3,10 +3,11 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Navbar from "@/components/layout/Navbar";
-import RiderSidebar from "@/components/layout/RiderSidebar";
+import RiderLayout from "@/components/layout/RiderLayout";
 import Card from "@/components/ui/Card";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
+import Badge from "@/components/ui/Badge";
 import { useAuth } from "@/hooks/useAuth";
 import { RiderVerification, VerificationStatus } from "@/types";
 
@@ -230,78 +231,60 @@ export default function ProfilePage() {
   // Rider layout with persistent RiderSidebar on the left
   if (isRider) {
     return (
-      <div className="min-h-screen bg-gray-50 flex flex-col md:flex-row">
-        <RiderSidebar
-          currentPath="/profile"
-          verificationStatus={verification?.status}
-          riderName={name}
-        />
-
-        <main className="flex-1 md:ml-64 min-w-0 px-4 py-8 sm:px-8 lg:px-10">
-          <div className="mx-auto max-w-3xl">
-            {/* Header */}
-            <div className="mb-6">
-              <h1 className="text-3xl font-bold text-gray-900">My Profile</h1>
-              <p className="mt-1 text-sm text-gray-600">
-                Manage your rider profile credentials and personal contact details.
-              </p>
+      <RiderLayout
+        currentPath="/profile"
+        verificationStatus={verification?.status}
+        riderName={name}
+        title="My Profile"
+        subtitle="Manage your rider profile credentials and personal contact details."
+        maxWidth="max-w-3xl"
+      >
+        {/* Rider Verification Details */}
+        {verification && (
+          <div className="mb-6 p-5 rounded-2xl bg-white border border-gray-200 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl font-bold border border-blue-100">
+                🪪
+              </div>
+              <div>
+                <h3 className="font-semibold text-gray-900 text-sm">
+                  National ID (NID) Verification
+                </h3>
+                <p className="text-xs text-gray-500 mt-0.5">
+                  NID Number:{" "}
+                  <span className="font-semibold text-gray-700">
+                    {verification.nidNumber || "Submitted"}
+                  </span>
+                </p>
+              </div>
             </div>
-
-            {/* Rider Verification Details */}
-            {verification && (
-              <div className="mb-6 p-5 rounded-2xl bg-white border border-gray-200 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl font-bold border border-blue-100">
-                    🪪
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-900 text-sm">
-                      National ID (NID) Verification
-                    </h3>
-                    <p className="text-xs text-gray-500 mt-0.5">
-                      NID Number:{" "}
-                      <span className="font-semibold text-gray-700">
-                        {verification.nidNumber || "Submitted"}
-                      </span>
-                    </p>
-                  </div>
-                </div>
-                <div>
-                  {verification.status === VerificationStatus.Approved ? (
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
-                      <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                      Verified Rider
-                    </span>
-                  ) : verification.status === VerificationStatus.Rejected ? (
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-rose-50 text-rose-700 border border-rose-200">
-                      <span className="w-2 h-2 rounded-full bg-rose-500" />
-                      Rejected
-                    </span>
-                  ) : (
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200">
-                      <span className="w-2 h-2 rounded-full bg-amber-500" />
-                      Pending Admin Approval
-                    </span>
-                  )}
-                </div>
-              </div>
-            )}
-
-            <Card>
-              <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-100">
-                <div>
-                  <h2 className="text-lg font-bold text-gray-900">Personal Information</h2>
-                  <p className="text-xs text-gray-500">Update your name, contact phone, or password</p>
-                </div>
-                <span className="text-xs uppercase px-3 py-1 bg-blue-50 text-blue-700 font-bold rounded-full border border-blue-200">
-                  Rider
-                </span>
-              </div>
-              {profileForm}
-            </Card>
+            <div>
+              <Badge
+                variant={verification.status}
+                dot
+                size="md"
+              >
+                {verification.status === VerificationStatus.Approved
+                  ? "Verified Rider"
+                  : verification.status === VerificationStatus.Rejected
+                  ? "Rejected"
+                  : "Pending Approval"}
+              </Badge>
+            </div>
           </div>
-        </main>
-      </div>
+        )}
+
+        <Card>
+          <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-100">
+            <div>
+              <h2 className="text-lg font-bold text-gray-900">Personal Information</h2>
+              <p className="text-xs text-gray-500">Update your name, contact phone, or password</p>
+            </div>
+            <Badge variant="rider">Rider</Badge>
+          </div>
+          {profileForm}
+        </Card>
+      </RiderLayout>
     );
   }
 
@@ -319,9 +302,7 @@ export default function ProfilePage() {
                 Manage your personal information and contact details
               </p>
             </div>
-            <span className="text-xs uppercase px-3 py-1 bg-blue-50 text-blue-700 font-bold rounded-full border border-blue-200">
-              {role || "Customer"}
-            </span>
+            <Badge variant={role || "customer"}>{role || "Customer"}</Badge>
           </div>
 
           {profileForm}

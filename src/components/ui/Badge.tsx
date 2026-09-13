@@ -1,35 +1,117 @@
-﻿import React from "react";
+import React from "react";
 
 export interface BadgeProps {
-  status: string;
+  status?: string;
+  variant?:
+    | "pending"
+    | "accepted"
+    | "picked_up"
+    | "in_transit"
+    | "delivered"
+    | "cancelled"
+    | "approved"
+    | "rejected"
+    | "active"
+    | "suspended"
+    | "customer"
+    | "rider"
+    | "admin"
+    | "document"
+    | "parcel"
+    | "fragile"
+    | "regular"
+    | "express"
+    | (string & {});
+  dot?: boolean;
+  withDot?: boolean;
+  size?: "sm" | "md";
   className?: string;
+  children?: React.ReactNode;
 }
 
-export default function Badge({ status, className = "" }: BadgeProps) {
-  const getColors = (st: string) => {
-    switch (st.toLowerCase()) {
+export default function Badge({
+  status,
+  variant,
+  dot = false,
+  withDot,
+  size = "md",
+  className = "",
+  children,
+}: BadgeProps) {
+  const showDot = withDot !== undefined ? withDot : dot;
+  const key = (variant || status || "default").toLowerCase().replace(/[\s-]/g, "_");
+
+  const getStyle = () => {
+    switch (key) {
       case "pending":
-        return "bg-yellow-100 text-yellow-800 border-yellow-300";
+        return {
+          wrapper: "bg-amber-50 text-amber-700 border-amber-200",
+          dot: "bg-amber-500",
+        };
       case "accepted":
       case "picked_up":
       case "in_transit":
-        return "bg-blue-100 text-blue-800 border-blue-300";
+        return {
+          wrapper: "bg-blue-50 text-blue-700 border-blue-200",
+          dot: "bg-blue-500",
+        };
       case "delivered":
-        return "bg-green-100 text-green-800 border-green-300";
+      case "approved":
+      case "active":
+        return {
+          wrapper: "bg-emerald-50 text-emerald-700 border-emerald-200",
+          dot: "bg-emerald-500",
+        };
       case "cancelled":
-        return "bg-red-100 text-red-800 border-red-300";
+      case "rejected":
+      case "suspended":
+        return {
+          wrapper: "bg-rose-50 text-rose-700 border-rose-200",
+          dot: "bg-rose-500",
+        };
+      case "customer":
+        return {
+          wrapper: "bg-purple-50 text-purple-700 border-purple-200",
+          dot: "bg-purple-500",
+        };
+      case "rider":
+        return {
+          wrapper: "bg-blue-50 text-blue-700 border-blue-200",
+          dot: "bg-blue-500",
+        };
+      case "admin":
+        return {
+          wrapper: "bg-indigo-50 text-indigo-700 border-indigo-200",
+          dot: "bg-indigo-500",
+        };
       default:
-        return "bg-gray-100 text-gray-800 border-gray-300";
+        return {
+          wrapper: "bg-gray-100 text-gray-700 border-gray-200",
+          dot: "bg-gray-400",
+        };
     }
   };
 
+  const style = getStyle();
+  const sizeClasses =
+    size === "sm"
+      ? "text-[11px] px-2 py-0.5"
+      : "text-xs px-2.5 py-0.5";
+
+  const displayContent = children ?? (status ? status.replace(/_/g, " ") : key);
+
   return (
     <span
-      className={`text-xs px-2.5 py-0.5 rounded-full border font-semibold uppercase ${getColors(
-        status,
-      )} ${className}`}
+      className={`inline-flex items-center gap-1.5 rounded-full border font-semibold tracking-wide uppercase ${sizeClasses} ${style.wrapper} ${className}`}
     >
-      {status.replace("_", " ")}
+      {showDot && (
+        <span
+          className={`w-1.5 h-1.5 rounded-full ${style.dot} ${
+            key === "pending" || key === "in_transit" ? "animate-pulse" : ""
+          }`}
+        />
+      )}
+      {displayContent}
     </span>
   );
 }
