@@ -188,6 +188,7 @@ export default function AdminZonesPage() {
     <AdminLayout
       title="Delivery Zones Management"
       subtitle="Set up delivery coverage areas, base regular/express fares, and extra weight rates."
+      currentPath="/admin/zones"
       backHref="/admin"
       actions={
         <Button

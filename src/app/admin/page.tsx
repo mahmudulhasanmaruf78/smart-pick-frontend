@@ -6,6 +6,9 @@ import { api } from "@/lib/api";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { DashboardStats } from "@/types/admin";
+import AdminLayout from "@/components/layout/AdminLayout";
+import Alert from "@/components/ui/Alert";
+import Button from "@/components/ui/Button";
 
 export default function AdminDashboardPage() {
   // Dashboard data state
@@ -71,66 +74,43 @@ export default function AdminDashboardPage() {
   }, [router]);
 
   return (
-    <main className="min-h-screen bg-gray-50 px-4 py-10 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-7xl">
-        {/* Header Section */}
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-b border-gray-200 pb-6">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight text-gray-900">
-              Admin Dashboard
-            </h1>
-            <p className="mt-1 text-sm text-gray-500">
-              System metrics and overview of SmartPick.
-            </p>
-          </div>
-
-          {/* Refresh Button */}
-          <div>
-            <button
-              type="button"
-              onClick={() => fetchDashboardStats(true)}
-              disabled={isLoading || isRefreshing}
-              className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
-            >
-              {isRefreshing ? (
-                <>
-                  <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
-                  <span>Refreshing...</span>
-                </>
-              ) : (
-                <>
-                  {/* Refresh Icon */}
-                  <svg
-                    className="h-4 w-4"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-                    />
-                  </svg>
-                  <span>Refresh</span>
-                </>
-              )}
-            </button>
-          </div>
-        </div>
-
-        {/* Error Alert Message */}
-        {errorMessage && (
-          <div
-            role="alert"
-            className="mt-6 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700 shadow-sm"
+    <AdminLayout
+      title="Admin Dashboard"
+      subtitle="System metrics and operational overview of SmartPick."
+      currentPath="/admin"
+      actions={
+        <Button
+          variant="primary"
+          onClick={() => fetchDashboardStats(true)}
+          disabled={isLoading || isRefreshing}
+          isLoading={isRefreshing}
+          className="inline-flex items-center gap-2"
+        >
+          <svg
+            className="h-4 w-4"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            viewBox="0 0 24 24"
           >
-            {errorMessage}
-          </div>
-        )}
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+            />
+          </svg>
+          <span>Refresh</span>
+        </Button>
+      }
+    >
+      {/* Error Alert Message */}
+      {errorMessage && (
+        <Alert variant="error" onClose={() => setErrorMessage("")} className="mb-6">
+          {errorMessage}
+        </Alert>
+      )}
 
-        {/* Initial Loading State */}
+      {/* Initial Loading State */}
         {isLoading ? (
           <div className="mt-8 flex items-center justify-center rounded-2xl border border-gray-200 bg-white p-12 shadow-sm">
             <span className="h-8 w-8 animate-spin rounded-full border-4 border-blue-600 border-t-transparent" />
@@ -448,7 +428,6 @@ export default function AdminDashboardPage() {
             </section>
           </div>
         ) : null}
-      </div>
-    </main>
+    </AdminLayout>
   );
 }

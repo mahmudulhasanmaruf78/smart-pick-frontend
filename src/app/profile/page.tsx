@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Navbar from "@/components/layout/Navbar";
 import RiderLayout from "@/components/layout/RiderLayout";
 import CustomerLayout from "@/components/layout/CustomerLayout";
+import AdminLayout from "@/components/layout/AdminLayout";
 import Card from "@/components/ui/Card";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
@@ -286,6 +287,31 @@ export default function ProfilePage() {
           {profileForm}
         </Card>
       </RiderLayout>
+    );
+  }
+
+  // Admin Layout with persistent AdminSidebar
+  if (role === "admin") {
+    return (
+      <AdminLayout
+        title="Admin Profile"
+        subtitle="Manage your administrator personal and credentials information"
+        currentPath="/profile"
+        maxWidth="max-w-xl"
+      >
+        <Card>
+          <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-100">
+            <div>
+              <h1 className="text-2xl font-bold text-gray-900">Admin Profile</h1>
+              <p className="text-sm text-gray-500">
+                Manage your administrator account
+              </p>
+            </div>
+            <Badge variant="admin">Admin</Badge>
+          </div>
+          {profileForm}
+        </Card>
+      </AdminLayout>
     );
   }
 

@@ -160,6 +160,7 @@ export default function AdminRidersPage() {
     <AdminLayout
       title="Rider Verification Management"
       subtitle="Review uploaded NID documents and approve or reject rider accounts."
+      currentPath="/admin/riders"
       backHref="/admin"
     >
       {/* Filter Tabs Bar */}

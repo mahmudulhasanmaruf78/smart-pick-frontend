@@ -136,6 +136,7 @@ export default function AdminUsersPage() {
     <AdminLayout
       title="User Management"
       subtitle="Inspect user accounts, filter by roles, and suspend abusive users."
+      currentPath="/admin/users"
       backHref="/admin"
       actions={
         <div className="rounded-xl border border-gray-200 bg-white px-3.5 py-1.5 text-xs font-semibold text-gray-700 shadow-2xs">
