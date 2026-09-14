@@ -60,8 +60,10 @@ export default function AdminZonesPage() {
   const router = useRouter();
 
   useEffect(() => {
-    const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
-    const role = typeof window !== "undefined" ? localStorage.getItem("role") : null;
+    const token =
+      typeof window !== "undefined" ? localStorage.getItem("token") : null;
+    const role =
+      typeof window !== "undefined" ? localStorage.getItem("role") : null;
     if (!token || role?.toLowerCase() !== "admin") {
       router.push("/login");
       return;
@@ -215,13 +217,21 @@ export default function AdminZonesPage() {
     >
       {/* Alerts */}
       {successMessage && (
-        <Alert variant="success" onClose={() => setSuccessMessage("")} className="mb-6">
+        <Alert
+          variant="success"
+          onClose={() => setSuccessMessage("")}
+          className="mb-6"
+        >
           {successMessage}
         </Alert>
       )}
 
       {errorMessage && (
-        <Alert variant="error" onClose={() => setErrorMessage("")} className="mb-6">
+        <Alert
+          variant="error"
+          onClose={() => setErrorMessage("")}
+          className="mb-6"
+        >
           {errorMessage}
         </Alert>
       )}
@@ -237,9 +247,7 @@ export default function AdminZonesPage() {
       ) : zones.length === 0 ? (
         /* Empty State */
         <div className="rounded-2xl border border-dashed border-gray-300 bg-white p-12 text-center shadow-sm">
-          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-blue-50 text-3xl">
-            🗺️
-          </div>
+          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-blue-50 text-3xl"></div>
           <h3 className="mt-4 text-lg font-bold text-gray-900">
             No delivery zones found
           </h3>
@@ -261,12 +269,24 @@ export default function AdminZonesPage() {
             <table className="min-w-full divide-y divide-gray-200 text-left">
               <thead className="bg-gray-50 text-xs font-semibold uppercase tracking-wider text-gray-500">
                 <tr>
-                  <th scope="col" className="px-6 py-4">Zone Name</th>
-                  <th scope="col" className="px-6 py-4">Base Regular Fare</th>
-                  <th scope="col" className="px-6 py-4">Base Express Fare</th>
-                  <th scope="col" className="px-6 py-4">Weight Limit</th>
-                  <th scope="col" className="px-6 py-4">Extra Weight Rate</th>
-                  <th scope="col" className="px-6 py-4 text-right">Actions</th>
+                  <th scope="col" className="px-6 py-4">
+                    Zone Name
+                  </th>
+                  <th scope="col" className="px-6 py-4">
+                    Base Regular Fare
+                  </th>
+                  <th scope="col" className="px-6 py-4">
+                    Base Express Fare
+                  </th>
+                  <th scope="col" className="px-6 py-4">
+                    Weight Limit
+                  </th>
+                  <th scope="col" className="px-6 py-4">
+                    Extra Weight Rate
+                  </th>
+                  <th scope="col" className="px-6 py-4 text-right">
+                    Actions
+                  </th>
                 </tr>
               </thead>
 
@@ -412,6 +432,7 @@ export default function AdminZonesPage() {
                   placeholder="2"
                   className="block w-full rounded-xl border border-gray-300 pr-12 pl-4 py-2.5 text-sm text-gray-900 focus:ring-2 focus:ring-blue-500/20 focus:outline-none"
                 />
+
                 <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3.5 text-xs font-medium text-gray-500">
                   kg
                 </span>

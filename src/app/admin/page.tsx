@@ -128,7 +128,7 @@ export default function AdminDashboardPage() {
               <div className="relative z-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                   <div className="inline-flex items-center gap-2 rounded-full bg-white/20 px-3 py-1 text-xs font-semibold tracking-wide uppercase backdrop-blur-sm">
-                    <span>💰 Total Revenue</span>
+                    <span> Total Revenue</span>
                   </div>
 
                   <h2 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">
@@ -145,7 +145,7 @@ export default function AdminDashboardPage() {
                 </div>
 
                 <div className="hidden sm:flex h-16 w-16 items-center justify-center rounded-2xl bg-white/15 text-3xl backdrop-blur-sm">
-                  💵
+                  
                 </div>
               </div>
             </div>
@@ -153,7 +153,7 @@ export default function AdminDashboardPage() {
             {/* 2. User Stats Section */}
             <section>
               <div className="flex items-center gap-2 mb-4">
-                <span className="text-xl">👥</span>
+                <span className="text-xl"></span>
                 <h3 className="text-lg font-bold text-gray-900">
                   User Overview
                 </h3>
@@ -167,7 +167,7 @@ export default function AdminDashboardPage() {
                       Total Users
                     </p>
                     <span className="rounded-lg bg-indigo-50 p-2 text-indigo-600 text-lg">
-                      👥
+                      
                     </span>
                   </div>
                   <p className="mt-3 text-3xl font-bold text-gray-900">
@@ -185,7 +185,7 @@ export default function AdminDashboardPage() {
                       Total Customers
                     </p>
                     <span className="rounded-lg bg-blue-50 p-2 text-blue-600 text-lg">
-                      🛍️
+                      
                     </span>
                   </div>
                   <p className="mt-3 text-3xl font-bold text-blue-600">
@@ -201,7 +201,7 @@ export default function AdminDashboardPage() {
                       Total Riders
                     </p>
                     <span className="rounded-lg bg-purple-50 p-2 text-purple-600 text-lg">
-                      🚴
+                      
                     </span>
                   </div>
                   <p className="mt-3 text-3xl font-bold text-purple-600">
@@ -219,7 +219,7 @@ export default function AdminDashboardPage() {
                       Total Admins
                     </p>
                     <span className="rounded-lg bg-amber-50 p-2 text-amber-600 text-lg">
-                      🛡️
+                      
                     </span>
                   </div>
                   <p className="mt-3 text-3xl font-bold text-amber-600">
@@ -233,7 +233,7 @@ export default function AdminDashboardPage() {
             {/* 3. Order Stats Section */}
             <section>
               <div className="flex items-center gap-2 mb-4">
-                <span className="text-xl">📦</span>
+                <span className="text-xl"></span>
                 <h3 className="text-lg font-bold text-gray-900">
                   Order Overview
                 </h3>
@@ -335,7 +335,7 @@ export default function AdminDashboardPage() {
             {/* 4. Quick Actions / Navigation Cards */}
             <section className="pt-2">
               <div className="flex items-center gap-2 mb-4">
-                <span className="text-xl">⚡</span>
+                <span className="text-xl"></span>
                 <h3 className="text-lg font-bold text-gray-900">
                   Management Tools & Quick Actions
                 </h3>
@@ -349,7 +349,7 @@ export default function AdminDashboardPage() {
                 >
                   <div>
                     <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-50 text-2xl group-hover:bg-blue-100 transition">
-                      🗺️
+                      
                     </div>
 
                     <h4 className="mt-4 text-lg font-bold text-gray-900 group-hover:text-blue-600 transition">
@@ -376,7 +376,7 @@ export default function AdminDashboardPage() {
                 >
                   <div>
                     <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-50 text-2xl group-hover:bg-emerald-100 transition">
-                      🪪
+                      
                     </div>
 
                     <h4 className="mt-4 text-lg font-bold text-gray-900 group-hover:text-emerald-600 transition">
@@ -404,7 +404,7 @@ export default function AdminDashboardPage() {
                 >
                   <div>
                     <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-purple-50 text-2xl group-hover:bg-purple-100 transition">
-                      ⚙️
+                      
                     </div>
 
                     <h4 className="mt-4 text-lg font-bold text-gray-900 group-hover:text-purple-600 transition">

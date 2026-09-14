@@ -1,6 +1,6 @@
 import React from "react";
 
-export interface AlertProps {
+interface AlertProps {
   type?: "error" | "success" | "warning" | "info";
   variant?: "error" | "success" | "warning" | "info";
   title?: string;
@@ -110,7 +110,12 @@ export default function Alert({
           className="p-1 rounded hover:bg-black/5 transition shrink-0"
           aria-label="Dismiss alert"
         >
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg
+            className="w-4 h-4"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
             <path
               strokeLinecap="round"
               strokeLinejoin="round"

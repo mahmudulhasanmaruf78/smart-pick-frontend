@@ -187,7 +187,7 @@ export default function RiderDeliverPage() {
         {/* delivery completed */}
         {!isLoading && activeOrder?.status === OrderStatus.Delivered && (
           <div className="mt-6 rounded-2xl bg-white p-8 text-center shadow">
-            <div className="text-5xl">✅</div>
+            <div className="text-5xl"></div>
 
             <h2 className="mt-4 text-2xl font-bold text-green-700">
               Delivery Completed!
@@ -209,7 +209,7 @@ export default function RiderDeliverPage() {
         {!isLoading && !errorMessage && activeOrder === null && (
           <div className="mt-6 rounded-2xl border border-dashed border-gray-300 bg-white px-6 py-12 text-center shadow-sm">
             <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-blue-50 text-3xl">
-              📦
+              
             </div>
 
             <h2 className="mt-5 text-xl font-bold text-gray-900">
@@ -376,7 +376,7 @@ export default function RiderDeliverPage() {
                       href={`tel:${activeOrder.customer.phone}`}
                       className="rounded-lg bg-green-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-green-700"
                     >
-                      📞 Call Customer
+                       Call Customer
                     </a>
                   )}
                 </div>

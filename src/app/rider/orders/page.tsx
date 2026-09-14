@@ -313,7 +313,7 @@ export default function RiderOrdersPage() {
             {filteredOrders.length === 0 ? (
               <div className="rounded-2xl border border-dashed border-gray-300 bg-white px-6 py-12 text-center shadow-sm">
                 <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-blue-50 text-2xl">
-                  📦
+                  
                 </div>
 
                 <h2 className="text-lg font-semibold text-gray-800">
@@ -387,11 +387,11 @@ export default function RiderOrdersPage() {
                     {/* Parcel and delivery badges */}
                     <div className="mt-5 flex flex-wrap gap-2">
                       <Badge variant={order.parcelType} size="sm">
-                        📦 {formatLabel(order.parcelType)}
+                         {formatLabel(order.parcelType)}
                       </Badge>
 
                       <Badge variant={order.deliveryType} size="sm">
-                        🚚 {formatLabel(order.deliveryType)}
+                         {formatLabel(order.deliveryType)}
                       </Badge>
                     </div>
 

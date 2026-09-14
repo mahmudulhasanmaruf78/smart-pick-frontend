@@ -300,7 +300,7 @@ export default function RiderRegisterPage() {
                 onChange={(event) => setPassword(event.target.value)}
                 placeholder="Enter your password"
                 required
-                className="w-full rounded-lg border border-gray-300 px-4 py-3 pr-20 text-gray-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+                className="w-full rounded-lg border border-gray-300 px-4 py-3 pr-20 text-gray-900 outline-none transition focus:ring-2 focus:ring-blue-200"
               />
 
               <button
@@ -450,7 +450,7 @@ export default function RiderRegisterPage() {
           <button
             type="submit"
             disabled={isLoading || Boolean(successMessage)}
-            className="flex w-full items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 py-3 font-semibold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-blue-300"
+            className="flex w-full items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 py-3 font-semibold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed"
           >
             {isLoading && (
               <span className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent" />

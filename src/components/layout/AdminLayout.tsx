@@ -4,7 +4,7 @@ import React from "react";
 import Link from "next/link";
 import AdminSidebar from "@/components/layout/AdminSidebar";
 
-export interface AdminLayoutProps {
+interface AdminLayoutProps {
   children: React.ReactNode;
   title: string;
   subtitle?: string;

@@ -10,11 +10,7 @@ interface CustomerLayoutProps {
   maxWidth?: string;
 }
 
-/**
- * Reusable Customer Portal Layout
- * Provides persistent sidebar navigation on desktop/mobile
- * and a standardized responsive content container on the right side.
- */
+// Reusable Customer Portal Layout
 export default function CustomerLayout({
   children,
   currentPath,
@@ -24,16 +20,11 @@ export default function CustomerLayout({
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col md:flex-row">
       {/* Persistent Left Sidebar */}
-      <CustomerSidebar
-        currentPath={currentPath}
-        userName={userName}
-      />
+      <CustomerSidebar currentPath={currentPath} userName={userName} />
 
       {/* Dynamic Right Content Area */}
       <main className="flex-1 md:ml-64 min-w-0 px-4 py-8 sm:px-8 lg:px-10">
-        <div className={`mx-auto ${maxWidth}`}>
-          {children}
-        </div>
+        <div className={`mx-auto ${maxWidth}`}>{children}</div>
       </main>
     </div>
   );

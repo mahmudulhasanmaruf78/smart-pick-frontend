@@ -59,7 +59,7 @@ export default function OrderForm() {
         throw new Error(errorMsg || "Failed to create order");
       }
 
-      alert(`🎉 Order created successfully! Total Fare: ${data.fare} BDT`);
+      alert(`Order created successfully! Total Fare: ${data.fare} BDT`);
       router.push("/orders");
     } catch (err: any) {
       setError(err.message || "Could not create order. Please try again.");

@@ -165,7 +165,7 @@ export default function AdminRidersPage() {
     >
       {/* Filter Tabs Bar */}
       <div className="flex flex-wrap items-center gap-2 border-b border-gray-200 pb-4">
-          {/* 🟡 Pending Applications */}
+          {/*  Pending Applications */}
           <button
             type="button"
             onClick={() => setActiveTab(VerificationStatus.Pending)}
@@ -175,7 +175,7 @@ export default function AdminRidersPage() {
                 : "bg-white text-gray-600 hover:bg-gray-100 hover:text-gray-900"
             }`}
           >
-            <span>🟡</span>
+            <span></span>
             <span>Pending Applications</span>
             <span
               className={`rounded-full px-2 py-0.5 text-xs font-bold ${
@@ -188,7 +188,7 @@ export default function AdminRidersPage() {
             </span>
           </button>
 
-          {/* 🟢 Approved Riders */}
+          {/*  Approved Riders */}
           <button
             type="button"
             onClick={() => setActiveTab(VerificationStatus.Approved)}
@@ -198,7 +198,7 @@ export default function AdminRidersPage() {
                 : "bg-white text-gray-600 hover:bg-gray-100 hover:text-gray-900"
             }`}
           >
-            <span>🟢</span>
+            <span></span>
             <span>Approved Riders</span>
             <span
               className={`rounded-full px-2 py-0.5 text-xs font-bold ${
@@ -211,7 +211,7 @@ export default function AdminRidersPage() {
             </span>
           </button>
 
-          {/* 🔴 Rejected Applications */}
+          {/*  Rejected Applications */}
           <button
             type="button"
             onClick={() => setActiveTab(VerificationStatus.Rejected)}
@@ -221,7 +221,7 @@ export default function AdminRidersPage() {
                 : "bg-white text-gray-600 hover:bg-gray-100 hover:text-gray-900"
             }`}
           >
-            <span>🔴</span>
+            <span></span>
             <span>Rejected Applications</span>
             <span
               className={`rounded-full px-2 py-0.5 text-xs font-bold ${
@@ -234,7 +234,7 @@ export default function AdminRidersPage() {
             </span>
           </button>
 
-          {/* ⚪ All Riders */}
+          {/*  All Riders */}
           <button
             type="button"
             onClick={() => setActiveTab("all")}
@@ -244,7 +244,7 @@ export default function AdminRidersPage() {
                 : "bg-white text-gray-600 hover:bg-gray-100 hover:text-gray-900"
             }`}
           >
-            <span>⚪</span>
+            <span></span>
             <span>All Riders</span>
             <span
               className={`rounded-full px-2 py-0.5 text-xs font-bold ${
@@ -278,7 +278,7 @@ export default function AdminRidersPage() {
           /* Empty State */
           <div className="mt-8 rounded-2xl border border-dashed border-gray-300 bg-white p-12 text-center shadow-sm">
             <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-blue-50 text-3xl">
-              🛵
+              
             </div>
             <h3 className="mt-4 text-lg font-bold text-gray-900">
               {activeTab === VerificationStatus.Pending
@@ -376,7 +376,7 @@ export default function AdminRidersPage() {
                                 className="h-10 w-14 rounded object-cover"
                               />
                               <span className="pr-1 text-xs font-medium text-blue-600 group-hover:underline">
-                                🔍 View
+                                 View
                               </span>
                             </button>
                           ) : (

@@ -1,6 +1,12 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useCallback,
+} from "react";
 import { useRouter } from "next/navigation";
 
 export interface User {
@@ -75,38 +81,44 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  const logout = useCallback((confirmPrompt?: boolean | any) => {
-    const shouldConfirm = typeof confirmPrompt === "boolean" ? confirmPrompt : true;
-    if (shouldConfirm && typeof window !== "undefined") {
-      const confirmed = window.confirm("Are you sure you want to log out?");
-      if (!confirmed) return;
-    }
-
-    // 1. Invalidate React Context state
-    setToken(null);
-    setUser(null);
-    setRole(null);
-
-    // 2. Completely purge all storage and session artifacts
-    if (typeof window !== "undefined") {
-      try {
-        localStorage.removeItem("token");
-        localStorage.removeItem("role");
-        localStorage.removeItem("user");
-        localStorage.removeItem("userName");
-        sessionStorage.clear();
-
-        // Expire any auth cookie
-        document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-        document.cookie = "role=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-      } catch (e) {
-        console.error("Error during session logout cleanup", e);
+  const logout = useCallback(
+    (confirmPrompt?: boolean | any) => {
+      const shouldConfirm =
+        typeof confirmPrompt === "boolean" ? confirmPrompt : true;
+      if (shouldConfirm && typeof window !== "undefined") {
+        const confirmed = window.confirm("Are you sure you want to log out?");
+        if (!confirmed) return;
       }
-    }
 
-    // 3. Redirect to login
-    router.push("/login");
-  }, [router]);
+      // Clear all session state
+      setToken(null);
+      setUser(null);
+      setRole(null);
+
+      // Clear storage and session artifacts
+      if (typeof window !== "undefined") {
+        try {
+          localStorage.removeItem("token");
+          localStorage.removeItem("role");
+          localStorage.removeItem("user");
+          localStorage.removeItem("userName");
+          sessionStorage.clear();
+
+          // Expire any auth cookie
+          document.cookie =
+            "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+          document.cookie =
+            "role=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        } catch (e) {
+          console.error("Error during session logout cleanup", e);
+        }
+      }
+
+      // Redirect to login
+      router.push("/login");
+    },
+    [router],
+  );
 
   return (
     <AuthContext.Provider

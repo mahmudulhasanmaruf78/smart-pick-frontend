@@ -6,13 +6,13 @@ import { useRouter } from "next/navigation";
 import Navbar from "@/components/layout/Navbar";
 import RiderLayout from "@/components/layout/RiderLayout";
 import CustomerLayout from "@/components/layout/CustomerLayout";
-import OrderCard, { Order } from "@/components/orders/OrderCard";
+import OrderCard from "@/components/orders/OrderCard";
 import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
 import Alert from "@/components/ui/Alert";
 import Modal from "@/components/ui/Modal";
 import { useAuth } from "@/hooks/useAuth";
-import { VerificationStatus } from "@/types";
+import { Order, VerificationStatus } from "@/types";
 
 export default function OrdersPage() {
   const router = useRouter();
@@ -151,7 +151,7 @@ export default function OrdersPage() {
       {isRider && (
         <div className="mb-6 rounded-xl border border-blue-200 bg-blue-50/70 p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-sm">
           <div className="flex items-center gap-2.5 text-blue-900">
-            <span className="text-lg">🚴</span>
+            <span className="text-lg"></span>
             <span>
               Looking for open parcels to deliver as a commuter?
             </span>

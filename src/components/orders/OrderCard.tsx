@@ -1,23 +1,12 @@
-﻿"use client";
+"use client";
 
 import React from "react";
 import Badge from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
 
-export interface Order {
-  id: number;
-  pickupZone: string;
-  pickupArea: string;
-  dropZone: string;
-  dropArea: string;
-  parcelType: string;
-  weight: number;
-  deliveryType: string;
-  fare: number;
-  status: string;
-  createdAt: string;
-  rider?: { name: string; phone: string } | null;
-}
+import { Order } from "@/types";
+
+export type { Order };
 
 export interface OrderCardProps {
   order: Order;

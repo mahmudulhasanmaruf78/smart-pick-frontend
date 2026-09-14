@@ -1,13 +1,13 @@
 export enum Role {
-  Customer = 'customer',
-  Rider = 'rider',
-  Admin = 'admin',
+  Customer = "customer",
+  Rider = "rider",
+  Admin = "admin",
 }
 
 export enum VerificationStatus {
-  Pending = 'pending',
-  Approved = 'approved',
-  Rejected = 'rejected',
+  Pending = "pending",
+  Approved = "approved",
+  Rejected = "rejected",
 }
 
 export interface RiderVerification {

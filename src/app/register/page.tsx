@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useState } from "react";
 import Link from "next/link";
@@ -14,6 +14,7 @@ export default function RegisterPage() {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -39,7 +40,7 @@ export default function RegisterPage() {
         throw new Error(errorMsg || "Registration failed");
       }
 
-      alert("🎉 Account created successfully! Please sign in.");
+      alert("Account created successfully! Please sign in.");
       router.push("/login");
     } catch (err: any) {
       setError(err.message || "Registration failed. Please check inputs.");
@@ -96,15 +97,32 @@ export default function RegisterPage() {
               onChange={(e) => setPhone(e.target.value)}
             />
 
-            <Input
-              label="Password"
-              type="password"
-              required
-              placeholder="Min. 6 chars with special character"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              helperText="Password must include lowercase, uppercase, number & symbol."
-            />
+            <div className="w-full space-y-1">
+              <label className="block text-sm font-medium text-gray-700">
+                Password
+              </label>
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  required
+                  placeholder="Min. 6 chars with special character"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full border border-gray-300 bg-white p-2 pr-16 rounded text-black transition focus:outline-blue-500"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-sm font-medium text-blue-600 hover:text-blue-800 cursor-pointer"
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                >
+                  {showPassword ? "Hide" : "Show"}
+                </button>
+              </div>
+              <p className="text-xs text-gray-400">
+                Password must include lowercase, uppercase, number & symbol.
+              </p>
+            </div>
 
             <Button
               type="submit"

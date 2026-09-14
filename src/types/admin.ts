@@ -1,4 +1,4 @@
-import { VerificationStatus } from './user';
+import { VerificationStatus } from "./user";
 
 export interface DashboardStats {
   users: {

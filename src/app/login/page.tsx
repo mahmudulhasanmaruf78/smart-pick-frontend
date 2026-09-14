@@ -14,6 +14,7 @@ export default function LoginPage() {
 
   const [identity, setIdentity] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -97,14 +98,29 @@ export default function LoginPage() {
               onChange={(e) => setIdentity(e.target.value)}
             />
 
-            <Input
-              label="Password"
-              type="password"
-              required
-              placeholder="••••••••"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
+            <div className="w-full space-y-1">
+              <label className="block text-sm font-medium text-gray-700">
+                Password
+              </label>
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  required
+                  placeholder="••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full border border-gray-300 bg-white p-2 pr-16 rounded text-black transition focus:outline-blue-500"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-sm font-medium text-blue-600 hover:text-blue-800 cursor-pointer"
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                >
+                  {showPassword ? "Hide" : "Show"}
+                </button>
+              </div>
+            </div>
 
             <Button
               type="submit"
@@ -118,7 +134,7 @@ export default function LoginPage() {
 
           <p className="text-center text-sm text-gray-600 mt-6 pt-4 border-t border-gray-100">
             Don't have an account?{" "}
-            <Link href="/register" className="text-blue-600 font-medium hover:underline">
+            <Link href="/" className="text-blue-600 font-medium hover:underline">
               Register here
             </Link>
           </p>

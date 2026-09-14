@@ -196,7 +196,7 @@ export default function ProfilePage() {
             type="email"
             disabled
             value={email}
-            helperText="🔒 Email is locked as your verified system identity and cannot be edited."
+            helperText=" Email is locked as your verified system identity and cannot be edited."
           />
 
           <Input
@@ -246,7 +246,7 @@ export default function ProfilePage() {
           <div className="mb-6 p-5 rounded-2xl bg-white border border-gray-200 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div className="flex items-center gap-3">
               <div className="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl font-bold border border-blue-100">
-                🪪
+                
               </div>
               <div>
                 <h3 className="font-semibold text-gray-900 text-sm">

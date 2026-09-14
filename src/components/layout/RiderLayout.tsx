@@ -16,11 +16,7 @@ interface RiderLayoutProps {
   action?: React.ReactNode;
 }
 
-/**
- * Reusable Rider Portal Layout
- * Provides persistent sidebar navigation on desktop/mobile
- * and a standardized responsive content container on the right side.
- */
+// Reusable Rider Portal Layout
 export default function RiderLayout({
   children,
   currentPath,
