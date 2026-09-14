@@ -1,0 +1,220 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SmartPick Peter Chen ER Diagram</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      background: #ffffff;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    svg {
+      background: #ffffff;
+    }
+    .entity-box {
+      fill: #e2e8f0;
+      stroke: #000000;
+      stroke-width: 2;
+    }
+    .rel-diamond {
+      fill: #f1f5f9;
+      stroke: #000000;
+      stroke-width: 2;
+    }
+    .attr-oval {
+      fill: #ffffff;
+      stroke: #000000;
+      stroke-width: 1.5;
+    }
+    .line-conn {
+      stroke: #000000;
+      stroke-width: 1.5;
+    }
+    .entity-title {
+      font-size: 16px;
+      font-weight: bold;
+      fill: #000000;
+      text-anchor: middle;
+      dominant-baseline: central;
+    }
+    .rel-title {
+      font-size: 13px;
+      font-weight: bold;
+      fill: #000000;
+      text-anchor: middle;
+      dominant-baseline: central;
+    }
+    .attr-text {
+      font-size: 13px;
+      fill: #000000;
+      text-anchor: middle;
+      dominant-baseline: central;
+    }
+    .pk-text {
+      font-size: 13px;
+      font-weight: bold;
+      text-decoration: underline;
+      fill: #000000;
+      text-anchor: middle;
+      dominant-baseline: central;
+    }
+    .card-label {
+      font-size: 15px;
+      font-weight: bold;
+      fill: #000000;
+      text-anchor: middle;
+    }
+  </style>
+</head>
+<body>
+
+<svg width="1560" height="960" viewBox="0 0 1560 960" xmlns="http://www.w3.org/2000/svg">
+  <!-- CONNECTOR LINES FOR USER ATTRIBUTES -->
+  <line class="line-conn" x1="270" y1="330" x2="155" y2="215" />
+  <line class="line-conn" x1="310" y1="320" x2="195" y2="133" />
+  <line class="line-conn" x1="345" y1="320" x2="320" y2="107" />
+  <line class="line-conn" x1="385" y1="320" x2="455" y2="114" />
+  <line class="line-conn" x1="270" y1="345" x2="158" y2="305" />
+  <line class="line-conn" x1="270" y1="365" x2="160" y2="395" />
+  <line class="line-conn" x1="295" y1="380" x2="205" y2="465" />
+
+  <!-- CONNECTOR LINES FOR RIDER_VERIFICATION ATTRIBUTES -->
+  <line class="line-conn" x1="240" y1="770" x2="140" y2="770" />
+  <line class="line-conn" x1="270" y1="800" x2="170" y2="868" />
+  <line class="line-conn" x1="340" y1="800" x2="315" y2="883" />
+  <line class="line-conn" x1="430" y1="800" x2="475" y2="865" />
+
+  <!-- CONNECTOR LINES FOR RELATIONSHIPS -->
+  <!-- USER to SUBMITS -->
+  <line class="line-conn" x1="360" y1="380" x2="360" y2="490" />
+  <!-- SUBMITS to RIDER_VERIFICATION (Double line for Total Participation) -->
+  <line class="line-conn" x1="357" y1="610" x2="357" y2="740" />
+  <line class="line-conn" x1="363" y1="610" x2="363" y2="740" />
+
+  <!-- USER to PLACES and ACCEPTS -->
+  <line class="line-conn" x1="450" y1="330" x2="660" y2="240" />
+  <line class="line-conn" x1="820" y1="240" x2="1050" y2="330" />
+
+  <line class="line-conn" x1="450" y1="370" x2="660" y2="440" />
+  <line class="line-conn" x1="820" y1="440" x2="1050" y2="370" />
+
+  <!-- ORDER to APPLIES_TO -->
+  <line class="line-conn" x1="1080" y1="380" x2="1025" y2="515" />
+  <!-- APPLIES_TO to DELIVERY_ZONE -->
+  <line class="line-conn" x1="955" y1="605" x2="930" y2="740" />
+
+  <!-- CONNECTOR LINES FOR ORDER ATTRIBUTES -->
+  <line class="line-conn" x1="1070" y1="320" x2="955" y2="115" />
+  <line class="line-conn" x1="1100" y1="320" x2="1050" y2="102" />
+  <line class="line-conn" x1="1140" y1="320" x2="1175" y2="102" />
+  <line class="line-conn" x1="1180" y1="320" x2="1290" y2="115" />
+  <line class="line-conn" x1="1230" y1="330" x2="1375" y2="165" />
+  <line class="line-conn" x1="1230" y1="340" x2="1375" y2="235" />
+  <line class="line-conn" x1="1230" y1="350" x2="1385" y2="310" />
+  <line class="line-conn" x1="1230" y1="360" x2="1375" y2="385" />
+  <line class="line-conn" x1="1225" y1="370" x2="1375" y2="455" />
+  <line class="line-conn" x1="1210" y1="380" x2="1335" y2="532" />
+  <line class="line-conn" x1="1180" y1="380" x2="1260" y2="600" />
+  <line class="line-conn" x1="1145" y1="380" x2="1150" y2="618" />
+
+  <!-- CONNECTOR LINES FOR DELIVERY_ZONE ATTRIBUTES -->
+  <line class="line-conn" x1="820" y1="770" x2="730" y2="770" />
+  <line class="line-conn" x1="850" y1="800" x2="765" y2="868" />
+  <line class="line-conn" x1="900" y1="800" x2="865" y2="883" />
+  <line class="line-conn" x1="960" y1="800" x2="980" y2="883" />
+  <line class="line-conn" x1="1010" y1="800" x2="1105" y2="868" />
+  <line class="line-conn" x1="1040" y1="770" x2="1135" y2="770" />
+
+  <!-- ==================== ENTITY RECTANGLES ==================== -->
+  <!-- USER -->
+  <rect class="entity-box" x="270" y="320" width="180" height="60" />
+  <text class="entity-title" x="360" y="353">USER</text>
+
+  <!-- RIDER_VERIFICATION -->
+  <rect class="entity-box" x="240" y="740" width="240" height="60" />
+  <text class="entity-title" x="360" y="773">RIDER_VERIFICATION</text>
+
+  <!-- ORDER -->
+  <rect class="entity-box" x="1050" y="320" width="180" height="60" />
+  <text class="entity-title" x="1140" y="353">ORDER</text>
+
+  <!-- DELIVERY_ZONE -->
+  <rect class="entity-box" x="820" y="740" width="220" height="60" />
+  <text class="entity-title" x="930" y="773">DELIVERY_ZONE</text>
+
+  <!-- ==================== RELATIONSHIP DIAMONDS ==================== -->
+  <!-- SUBMITS -->
+  <polygon class="rel-diamond" points="360,490 440,550 360,610 280,550" />
+  <text class="rel-title" x="360" y="552">SUBMITS</text>
+
+  <!-- PLACES -->
+  <polygon class="rel-diamond" points="740,185 820,240 740,295 660,240" />
+  <text class="rel-title" x="740" y="242">PLACES</text>
+
+  <!-- ACCEPTS -->
+  <polygon class="rel-diamond" points="740,385 820,440 740,495 660,440" />
+  <text class="rel-title" x="740" y="442">ACCEPTS</text>
+
+  <!-- APPLIES_TO -->
+  <polygon class="rel-diamond" points="990,505 1070,560 990,615 910,560" />
+  <text class="rel-title" x="990" y="562">APPLIES_TO</text>
+
+  <!-- ==================== CARDINALITIES ==================== -->
+  <text class="card-label" x="375" y="440">1</text>
+  <text class="card-label" x="375" y="675">1</text>
+
+  <text class="card-label" x="540" y="275">1</text>
+  <text class="card-label" x="945" y="275">N</text>
+
+  <text class="card-label" x="540" y="415">1</text>
+  <text class="card-label" x="945" y="415">N</text>
+
+  <text class="card-label" x="1055" y="450">N</text>
+  <text class="card-label" x="955" y="675">1</text>
+
+  <!-- ==================== ATTRIBUTE OVALS ==================== -->
+  <!-- USER ATTRIBUTES (Exactly 7, NO duplicates!) -->
+  <g transform="translate(110, 200)"><ellipse class="attr-oval" rx="46" ry="22"/><text class="pk-text" y="1">id</text></g>
+  <g transform="translate(170, 115)"><ellipse class="attr-oval" rx="48" ry="22"/><text class="attr-text" y="1">name</text></g>
+  <g transform="translate(320, 85)"><ellipse class="attr-oval" rx="48" ry="22"/><text class="attr-text" y="1">email</text></g>
+  <g transform="translate(470, 95)"><ellipse class="attr-oval" rx="48" ry="22"/><text class="attr-text" y="1">phone</text></g>
+  <g transform="translate(100, 305)"><ellipse class="attr-oval" rx="55" ry="22"/><text class="attr-text" y="1">password</text></g>
+  <g transform="translate(110, 395)"><ellipse class="attr-oval" rx="46" ry="22"/><text class="attr-text" y="1">role</text></g>
+  <g transform="translate(170, 480)"><ellipse class="attr-oval" rx="48" ry="22"/><text class="attr-text" y="1">isActive</text></g>
+
+  <!-- RIDER_VERIFICATION ATTRIBUTES -->
+  <g transform="translate(90, 770)"><ellipse class="attr-oval" rx="46" ry="22"/><text class="pk-text" y="1">id</text></g>
+  <g transform="translate(130, 885)"><ellipse class="attr-oval" rx="60" ry="22"/><text class="attr-text" y="1">nid_number</text></g>
+  <g transform="translate(310, 905)"><ellipse class="attr-oval" rx="55" ry="22"/><text class="attr-text" y="1">nid_image</text></g>
+  <g transform="translate(490, 885)"><ellipse class="attr-oval" rx="48" ry="22"/><text class="attr-text" y="1">status</text></g>
+
+  <!-- ORDER ATTRIBUTES (All 12 attributes including pickup_zone, drop_zone, created_at!) -->
+  <g transform="translate(930, 95)"><ellipse class="attr-oval" rx="46" ry="22"/><text class="pk-text" y="1">id</text></g>
+  <g transform="translate(1050, 80)"><ellipse class="attr-oval" rx="62" ry="22"/><text class="attr-text" y="1">pickup_zone</text></g>
+  <g transform="translate(1180, 80)"><ellipse class="attr-oval" rx="62" ry="22"/><text class="attr-text" y="1">pickup_area</text></g>
+  <g transform="translate(1310, 95)"><ellipse class="attr-oval" rx="60" ry="22"/><text class="attr-text" y="1">drop_zone</text></g>
+  <g transform="translate(1430, 150)"><ellipse class="attr-oval" rx="60" ry="22"/><text class="attr-text" y="1">drop_area</text></g>
+  <g transform="translate(1440, 230)"><ellipse class="attr-oval" rx="62" ry="22"/><text class="attr-text" y="1">parcel_type</text></g>
+  <g transform="translate(1440, 310)"><ellipse class="attr-oval" rx="48" ry="22"/><text class="attr-text" y="1">weight</text></g>
+  <g transform="translate(1440, 390)"><ellipse class="attr-oval" rx="65" ry="22"/><text class="attr-text" y="1">delivery_type</text></g>
+  <g transform="translate(1430, 470)"><ellipse class="attr-oval" rx="46" ry="22"/><text class="attr-text" y="1">fare</text></g>
+  <g transform="translate(1380, 550)"><ellipse class="attr-oval" rx="46" ry="22"/><text class="attr-text" y="1">status</text></g>
+  <g transform="translate(1285, 620)"><ellipse class="attr-oval" rx="55" ry="22"/><text class="attr-text" y="1">created_at</text></g>
+  <g transform="translate(1150, 640)"><ellipse class="attr-oval" rx="60" ry="22"/><text class="attr-text" y="1">accepted_at</text></g>
+
+  <!-- DELIVERY_ZONE ATTRIBUTES (Including weight_limit_kg!) -->
+  <g transform="translate(680, 770)"><ellipse class="attr-oval" rx="46" ry="22"/><text class="pk-text" y="1">id</text></g>
+  <g transform="translate(720, 885)"><ellipse class="attr-oval" rx="48" ry="22"/><text class="attr-text" y="1">name</text></g>
+  <g transform="translate(850, 905)"><ellipse class="attr-oval" rx="55" ry="22"/><text class="attr-text" y="1">base_fare</text></g>
+  <g transform="translate(990, 905)"><ellipse class="attr-oval" rx="62" ry="22"/><text class="attr-text" y="1">express_fare</text></g>
+  <g transform="translate(1140, 885)"><ellipse class="attr-oval" rx="72" ry="22"/><text class="attr-text" y="1">weight_limit_kg</text></g>
+  <g transform="translate(1190, 770)"><ellipse class="attr-oval" rx="55" ry="22"/><text class="attr-text" y="1">extra_rate</text></g>
+</svg>
+
+</body>
+</html>
