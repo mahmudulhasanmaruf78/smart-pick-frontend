@@ -27,10 +27,10 @@ export default function CustomerSidebar({
 
   const navSections: NavSection[] = [
     {
-      title: "Consignments",
+      title: "Orders",
       items: [
         {
-          name: "My Consignments",
+          name: "My Orders",
           href: "/orders",
           badge: "Active",
           icon: (

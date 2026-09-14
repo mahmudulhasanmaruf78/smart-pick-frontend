@@ -163,6 +163,16 @@ export default function ProfilePage() {
     user?.role?.toLowerCase() === "rider" ||
     (mounted && typeof window !== "undefined" && localStorage.getItem("role")?.toLowerCase() === "rider");
 
+  const getNidImageUrl = (path?: string) => {
+    if (!path) return "";
+    if (path.startsWith("http")) return path;
+    const baseUrl = process.env.NEXT_PUBLIC_API_URL
+      ? process.env.NEXT_PUBLIC_API_URL.replace(/\/api\/?$/, "")
+      : "http://localhost:3000";
+    const cleanPath = path.replace(/\\/g, "/").replace(/^\.?\/?/, "");
+    return `${baseUrl}/${cleanPath}`;
+  };
+
   const profileForm = (
     <>
       {message && (
@@ -208,6 +218,15 @@ export default function ProfilePage() {
             placeholder="01XXXXXXXXX (11 digits)"
           />
 
+          {isRider && (
+            <Input
+              label="National ID (NID) Number"
+              disabled
+              value={verification?.nidNumber || "Submitted with registration"}
+              helperText=" Official National ID registered for commuter rider verification."
+            />
+          )}
+
           <Input
             label="New Password (Optional)"
             type="password"
@@ -242,11 +261,13 @@ export default function ProfilePage() {
         maxWidth="max-w-3xl"
       >
         {/* Rider Verification Details */}
-        {verification && (
-          <div className="mb-6 p-5 rounded-2xl bg-white border border-gray-200 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="mb-6 p-5 rounded-2xl bg-white border border-gray-200 shadow-xs">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl font-bold border border-blue-100">
-                
+              <div className="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center border border-blue-100 shrink-0">
+                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2" />
+                </svg>
               </div>
               <div>
                 <h3 className="font-semibold text-gray-900 text-sm">
@@ -254,27 +275,58 @@ export default function ProfilePage() {
                 </h3>
                 <p className="text-xs text-gray-500 mt-0.5">
                   NID Number:{" "}
-                  <span className="font-semibold text-gray-700">
-                    {verification.nidNumber || "Submitted"}
+                  <span className="font-bold text-gray-900 font-mono">
+                    {verification?.nidNumber || "Submitted with registration"}
                   </span>
                 </p>
               </div>
             </div>
             <div>
               <Badge
-                variant={verification.status}
+                variant={verification?.status || "pending"}
                 dot
                 size="md"
               >
-                {verification.status === VerificationStatus.Approved
+                {verification?.status === VerificationStatus.Approved
                   ? "Verified Rider"
-                  : verification.status === VerificationStatus.Rejected
+                  : verification?.status === VerificationStatus.Rejected
                   ? "Rejected"
                   : "Pending Approval"}
               </Badge>
             </div>
           </div>
-        )}
+
+          {/* Uploaded NID Document Preview if available */}
+          {verification?.nidImagePath && (
+            <div className="mt-4 pt-3 border-t border-gray-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs bg-gray-50/70 rounded-xl p-3">
+              <div className="flex items-center gap-3">
+                <img
+                  src={getNidImageUrl(verification.nidImagePath)}
+                  alt="NID Document"
+                  className="w-14 h-10 object-cover rounded-lg border border-gray-200 shadow-2xs"
+                  onError={(e) => {
+                    (e.target as HTMLElement).style.display = "none";
+                  }}
+                />
+                <div>
+                  <p className="font-semibold text-gray-800">Uploaded NID Document</p>
+                  <p className="text-[11px] text-gray-500">Government issued identity document</p>
+                </div>
+              </div>
+              <a
+                href={getNidImageUrl(verification.nidImagePath)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-xs font-semibold text-blue-600 hover:text-blue-800 bg-white px-3 py-1.5 rounded-lg border border-gray-200 shadow-2xs hover:bg-gray-50 transition"
+              >
+                <span>View Full Document</span>
+                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+              </a>
+            </div>
+          )}
+        </div>
 
         <Card>
           <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-100">

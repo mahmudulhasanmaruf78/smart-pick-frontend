@@ -11,12 +11,20 @@ export type { Order };
 export interface OrderCardProps {
   order: Order;
   onCancel?: (orderId: number) => void;
+  onEdit?: (order: Order) => void;
+  isRider?: boolean;
 }
 
-export default function OrderCard({ order, onCancel }: OrderCardProps) {
+export default function OrderCard({
+  order,
+  onCancel,
+  onEdit,
+  isRider = false,
+}: OrderCardProps) {
   const canCancel =
     order.status.toLowerCase() === "pending" ||
     order.status.toLowerCase() === "accepted";
+  const canEdit = order.status.toLowerCase() === "pending";
 
   return (
     <div className="bg-white border border-gray-200 rounded-lg p-5 shadow-sm hover:shadow-md transition flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -41,7 +49,12 @@ export default function OrderCard({ order, onCancel }: OrderCardProps) {
           <span>Type: <strong>{order.parcelType}</strong></span>
           <span>Weight: <strong>{order.weight} kg</strong></span>
           <span>Speed: <strong>{order.deliveryType}</strong></span>
-          {order.rider && (
+          {isRider && order.customer && (
+            <span className="text-emerald-700 font-medium bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+              Customer: {order.customer.name} ({order.customer.phone})
+            </span>
+          )}
+          {!isRider && order.rider && (
             <span className="text-blue-600 font-medium">
               Rider: {order.rider.name} ({order.rider.phone})
             </span>
@@ -57,15 +70,29 @@ export default function OrderCard({ order, onCancel }: OrderCardProps) {
           </span>
         </div>
 
-        {canCancel && onCancel && (
-          <Button
-            size="sm"
-            variant="danger"
-            onClick={() => onCancel(order.id)}
-            className="text-xs"
-          >
-            Cancel Order
-          </Button>
+        {!isRider && (
+          <div className="flex items-center gap-2">
+            {canEdit && onEdit && (
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => onEdit(order)}
+                className="text-xs"
+              >
+                Edit
+              </Button>
+            )}
+            {canCancel && onCancel && (
+              <Button
+                size="sm"
+                variant="danger"
+                onClick={() => onCancel(order.id)}
+                className="text-xs"
+              >
+                Cancel
+              </Button>
+            )}
+          </div>
         )}
       </div>
     </div>
